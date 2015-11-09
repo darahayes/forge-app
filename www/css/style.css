@@ -1,0 +1,24 @@
+/* Empty. Add your own CSS if you like */
+
+button.small-icon:before {
+	font-size: 12px !important;
+}
+
+.small-title:before {
+	font-size: 1px !important;
+}
+
+p.weekday {
+	font-weight: bold;
+}
+.numberCircle {
+    border-radius: 50%;
+    width: 50%;
+    height: 50%;
+    padding: 0;
+
+    background: #fff;
+    border: 1px solid #666;
+    color: #666;
+    text-align: center;
+}
