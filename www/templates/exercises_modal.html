@@ -1,0 +1,15 @@
+<ion-modal-view view-title="Exercises">
+<ion-header-bar>
+    <h1 class="title">Exercises</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModal()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="exercise in exercises" ng-click="addExercise(exercise)">
+        {{exercise.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-modal-view>

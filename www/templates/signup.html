@@ -9,13 +9,13 @@
     <form ng-submit="doSignup()">
       <div class="list">
         <label class="item item-input">
-          <input type="text" placeholder="name" ng-model="signupData.name">
+          <input type="text" placeholder="name" ng-model="signupData.user.name">
         </label>
         <label class="item item-input">
-          <input type="email" placeholder="email" ng-model="signupData.email">
+          <input type="email" placeholder="email" ng-model="signupData.user.email">
         </label>
         <label class="item item-input">
-          <input type="password" placeholder="password" ng-model="signupData.password">
+          <input type="password" placeholder="password" ng-model="signupData.user.password">
         </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Sign Up</button>

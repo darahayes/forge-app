@@ -1,11 +1,11 @@
 <ion-view view-title="Calendar">
 	<ion-header-bar class="bar bar-subheader" align-title="center">
-	  <button class="button button-icon icon ion-chevron-left small-icon"></button>
-	  <div class="h3 small-title title">{{currentMonth}}</div>
-	  <button class="button button-icon icon ion-chevron-right small-icon"></button>
+	  <button class="button button-icon icon ion-chevron-left small-icon" ng-click="lastMonth()"></button>
+	  <div class="h3 small-title title">{{calendar.month_label}} {{calendar.year}}</div>
+	  <button class="button button-icon icon ion-chevron-right small-icon" ng-click="nextMonth()"></button>
 	</ion-header-bar>
   <ion-content clas="has-subheader">
-	  <ion-list>
+	  <ion-list on-swipe-right="lastMonth()" on-swipe-left="nextMonth()">
 	  	<ion-item>
 	  	<div class="row row-no-padding">
 	  		<div class="col text-center"><div><p class="weekday">M</p></div></div>
