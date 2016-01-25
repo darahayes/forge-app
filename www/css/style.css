@@ -22,3 +22,31 @@ p.weekday {
     color: #666;
     text-align: center;
 }
+
+.no-padding {
+    display: inline !important;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.item-text-center
+{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    height: 100%;
+}
+
+.bottom-margin {
+    margin-bottom: 5%;
+}

@@ -9,21 +9,44 @@
   </button>
 </ion-footer-bar>
 <ion-content>
-    <div class="list card" ng-repeat="exercise in workout">
+    <div class="list list-inset" ng-repeat="exercise in workout">
 
-      <div class="item">
+      <div class="item item-divider">
         <h2>{{exercise.title}}</h2>
       </div>
 
-      <div class="item">
-        <p>Sets go here...</p>
+      <div class="item" ng-repeat="set in exercise.sets">
+        <div class="row row-no-padding item-text-center">
+          <div class="col">
+            <p>{{$index + 1}}.</p>
+          </div>
+          <div class="col col-offset-10">
+            <button class="button button-clear button-dark button-small no-padding">10 kg</button>
+          </div>
+          <div class="col col-offset-20">
+            <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="decrement(set)"></button>
+          </div>
+          <div class="col-20 item-input">
+              <input type="number" placeholder="reps" ng-model="set.reps" ng-init="reps"></input>
+          </div>
+          <div class="col">
+            <button class="button button-clear button-dark button-small icon ion-plus-round rep-button" ng-click="increment(set)"></button>
+          </div>
+        </div>
       </div>
 
-      <a class="item item-icon-left" href="#">
-        <i class="icon ion-plus"></i>
-        New Set
+      <a class="item" ng-click="addSet(exercise)">
+        <div class="row row-no-padding">
+          <div class="col">
+            <i class="icon-left ion-plus-round"></i>
+          </div>
+          <div class="col col-75">
+            Set
+          </div>
+        </div>
       </a>
-
+    </div>
+    <div class="bottom-margin">
     </div>
 </ion-content>
 </ion-view>
