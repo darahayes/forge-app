@@ -50,3 +50,7 @@ p.weekday {
 .bottom-margin {
     margin-bottom: 5%;
 }
+.no-padding {
+    margin: 2% !important;
+    padding: 2% !important;
+}
