@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', function($httpProvider, $stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('app', {
@@ -71,4 +71,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/calendar');
+  $httpProvider.defaults.withCredentials = true;
+  $httpProvider.defaults.useXDomain = true;
+  // $httpProvider.interceptors.push('Auth_Interceptor');
+}])
+
+.constant('$ionicLoadingConfig', {
+  template: '<ion-spinner icon="android"></ion-spinner>'
 });

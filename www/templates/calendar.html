@@ -1,11 +1,11 @@
 <ion-view view-title="Calendar">
   <ion-header-bar class="bar bar-subheader" align-title="center">
-    <button class="button button-icon icon ion-chevron-left small-icon" ng-click="previous()"></button>
-    <div class="h3 small-title title">{{month.format("MMMM YYYY")}}</div>
-    <button class="button button-icon icon ion-chevron-right small-icon" ng-click="next()"></button>
+    <button class="button button-icon icon ion-chevron-left small-icon" ng-click="lastMonth()"></button>
+    <div class="h3 small-title title">{{month_label}} {{year}}</div>
+    <button class="button button-icon icon ion-chevron-right small-icon" ng-click="nextMonth()"></button>
   </ion-header-bar>
   <ion-content clas="has-subheader">
-    <ion-list on-swipe-right="previous()" on-swipe-left="next()">
+    <ion-list on-swipe-right="lastMonth()" on-swipe-left="nextMonth()">
       <ion-item>
       <div class="row row-no-padding">
         <div class="col text-center"><div><p class="weekday">Mon</p></div></div>
@@ -19,7 +19,7 @@
       </ion-item>
       <ion-item ng-repeat="week in weeks">
           <div class="row row-no-padding">
-            <div class="col text-center" ng-repeat="day in week.days"><a class="button button-small button-clear button-dark">{{day.number}}</a></div>
+            <div class="col text-center" ng-repeat="day in week"><a class="button button-small button-clear" ng-class="(day.month != month) ? 'button-stable' : 'button-dark'">{{day.date}}</a></div>
           </div>
       </ion-item> 
     </ion-list>

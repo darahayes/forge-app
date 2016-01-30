@@ -18,26 +18,37 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close class="item item-icon-right" ng-click="login()">
+        <ion-item ng-show="logged_in()" menu-close class="item item-icon-left" href="#">
+          <i class="icon ion-log-in"></i>
+             {{user().name}}
+        </ion-item>
+        <ion-item ng-hide="logged_in()" menu-close class="item item-icon-left" ng-click="login()">
           <i class="icon ion-log-in"></i>
              Login
         </ion-item>
-        <ion-item menu-close class="item item-icon-right" href="#/app/workout">
+        <ion-item menu-close class="item item-icon-left" href="#/app/workout">
           <i class="icon ion-compose"></i>
              Log Workout
         </ion-item>
-        <ion-item menu-close class="item item-icon-right" href="#/app/calendar">
+        <ion-item menu-close class="item item-icon-left" href="#/app/calendar">
           <i class="icon ion-calendar"></i>
              Calendar
         </ion-item>
-        <ion-item menu-close class="item item-icon-right" href="#/app/browse">
+        <ion-item menu-close class="item item-icon-left" href="#/app/browse">
           <i class="icon ion-arrow-graph-up-right"></i>
              Goals
         </ion-item>
-        <ion-item menu-close class="item item-icon-right" href="#/app/exercises">
+        <ion-item menu-close class="item item-icon-left" href="#/app/exercises">
           <i class="icon ion-more"></i>
              Exercises
         </ion-item>
+        <div ng-show="logged_in()">
+          <div class="item item-divider"></div>
+          <ion-item menu-close class="item item-icon-left" ng-click="confirm_logout()">
+            <i class="icon ion-log-out"></i>
+               Logout
+          </ion-item>
+        </div>
       </ion-list>
     </ion-content>
   </ion-side-menu>
