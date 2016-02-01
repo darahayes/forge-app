@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services', 'ionic'])
+angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
 
 .controller('AppCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, $ionicSideMenuDelegate, $timeout, userService) {
 
@@ -9,12 +9,14 @@ angular.module('starter.controllers', ['starter.services', 'ionic'])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
   
-  $scope.logged_in = userService.logged_in;
-  $scope.user = userService.user;
+  $scope.loggedIn = userService.isLoggedIn();
+  $scope.user = userService.getUser();
 
   // Form data for the login modal
   $scope.loginData = {};
   $scope.signupData = {};
+
+  console.log('user in controller', JSON.stringify($scope.user));
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -48,7 +50,11 @@ angular.module('starter.controllers', ['starter.services', 'ionic'])
 
   $scope.logout = function() {
     userService.logout(function(err) {
-
+      if (!err) {
+        $scope.loggedIn = userService.isLoggedIn();
+        $scope.user = userService.getUser();
+        console.log("loout complete",$scope.loggedIn, $scope.user);
+      }
     });
   }
 
@@ -66,6 +72,9 @@ angular.module('starter.controllers', ['starter.services', 'ionic'])
        });
       }
       else {
+        $scope.loggedIn = userService.isLoggedIn();
+        $scope.user = userService.getUser();
+        console.log("login complete",$scope.loggedIn, $scope.user);
         $scope.loginModal.hide();
       }
     });
@@ -105,6 +114,8 @@ angular.module('starter.controllers', ['starter.services', 'ionic'])
         }
       }
       else if (user) {
+        $scope.user = userService.getUser();
+        console.log("register complete",$scope.loggedIn, $scope.user);
         title = 'Success'
         msg = 'Hi ' + user.name + ', thanks for registering.'
       }

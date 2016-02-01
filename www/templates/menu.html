@@ -18,11 +18,11 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item ng-show="logged_in()" menu-close class="item item-icon-left" href="#">
-          <i class="icon ion-log-in"></i>
-             {{user().name}}
+        <ion-item ng-show="loggedIn" menu-close class="item item-icon-left" href="#">
+          <i class="icon ion-person"></i>
+             {{user.name}}
         </ion-item>
-        <ion-item ng-hide="logged_in()" menu-close class="item item-icon-left" ng-click="login()">
+        <ion-item ng-hide="loggedIn" menu-close class="item item-icon-left" ng-click="login()">
           <i class="icon ion-log-in"></i>
              Login
         </ion-item>
@@ -42,8 +42,12 @@
           <i class="icon ion-more"></i>
              Exercises
         </ion-item>
-        <div ng-show="logged_in()">
-          <div class="item item-divider"></div>
+        <div class="item item-divider"></div>
+        <ion-item menu-close class="item item-icon-left" href="#/app/exercises">
+          <i class="icon ion-gear-a"></i>
+             Settings
+        </ion-item>
+        <div ng-show="loggedIn">
           <ion-item menu-close class="item item-icon-left" ng-click="confirm_logout()">
             <i class="icon ion-log-out"></i>
                Logout
