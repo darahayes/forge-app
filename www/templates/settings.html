@@ -1,0 +1,24 @@
+<ion-view view-title="Preferences">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-input item-select">
+          <div class="input-label">
+            Preferred Weight Unit
+          </div>
+          <select ng-model="defaultMass" ng-change="setDefaultMassUnit(defaultMass)">
+              <option ng-repeat="unit in massUnits">{{unit}}</option>
+          </select>
+        </ion-item>
+        <ion-item class="item-input item-select">
+          <div class="input-label">
+            Preferred Distance Unit
+          </div>
+          <select ng-model="defaultDistance" ng-change="setDefaultDistanceUnit(defaultDistance)">
+              <option ng-repeat="unit in distanceUnits">{{unit}}</option>
+          </select>
+        </ion-item>
+        <div class="item item-divider"></div>
+        <ion-item ng-click="confirmClear()">Clear Preferences</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

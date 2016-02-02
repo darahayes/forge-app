@@ -21,7 +21,7 @@
               <button class="button button-clear button-dark button-small">{{$index + 1}}.</button>
             </div>
             <div class="col col-offset-10">
-              <button class="button button-clear button-dark button-small" ng-click="show_popup(set)">{{set.weight}}kg</button>
+              <button class="button button-clear button-dark button-small" ng-click="show_popup(set)">{{set.weight}}{{ set.unit || massUnit}}</button>
             </div>
             <div class="col col-offset-20">
               <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="decrement(set)"></button>

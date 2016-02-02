@@ -2,7 +2,7 @@ angular.module('Users', [])
 
 .factory('userService', ['$http', 'authService', function($http, authService) {
   
-  var host = 'localhost';
+  var host = '192.168.43.27';
 
   function register(signupData, cb) {
     $http.post('http://'+host+':4000/api/register', signupData)

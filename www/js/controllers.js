@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
+angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic'])
 
 .controller('AppCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, $ionicSideMenuDelegate, $timeout, userService) {
 
@@ -115,6 +115,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
       }
       else if (user) {
         $scope.user = userService.getUser();
+        $scope.loggedIn = userService.isLoggedIn();
         console.log("register complete",$scope.loggedIn, $scope.user);
         title = 'Success'
         msg = 'Hi ' + user.name + ', thanks for registering.'
@@ -238,8 +239,8 @@ angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
 
 })
 
-.controller('WorkoutCtrl', ['$scope', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService',
-  function($scope, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService) {
+.controller('WorkoutCtrl', ['$scope', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService',
+  function($scope, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
@@ -247,19 +248,14 @@ angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
     $scope.exercises = exercisesService;
     $scope.workout = []
     $scope.modals = {};
+    $scope.search = '';
+    $scope.distanceUnit = SettingsService.getDefaultDistanceUnit();
 
     $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
       scope: $scope
     }).then(function(modal) {
       $scope.modals.exercises_modal= modal;
     });
-
-    $ionicModal.fromTemplateUrl('templates/weight_selection.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modals.weight_modal = modal;
-    });
-
 
     $scope.addExercise = function(exercise) {
       
@@ -294,7 +290,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
     };
 
     $scope.addSet = function(exercise) {
-      var next = {}
+      var next = {unit: SettingsService.getDefaultMassUnit()}
       if (exercise.sets.length > 0) {
         var previous = exercise.sets[exercise.sets.length-1];
         next.reps = (previous.reps) ? previous.reps : 0;
@@ -355,4 +351,44 @@ angular.module('starter.controllers', ['Users', 'Auth', 'ionic'])
         set.weight = (res) ? res : 0;
       })
     }
+}])
+
+.controller('SettingsCtrl', ['$scope', '$state', '$ionicHistory', 'SettingsService', '$ionicPopup', function($scope, $state, $ionicHistory, SettingsService, $ionicPopup) {
+  $scope.distanceUnits = SettingsService.getDistanceUnits();
+  $scope.massUnits = SettingsService.getMassUnits();
+
+  $scope.defaultMass = SettingsService.getDefaultMassUnit();
+  $scope.defaultDistance = SettingsService.getDefaultDistanceUnit();
+
+  $scope.setDefaultDistanceUnit = function(unit) {
+    SettingsService.setDefaultDistanceUnit(unit);
+    $scope.defaultDistance = unit;
+  }
+
+  $scope.setDefaultMassUnit = function(unit) {
+    SettingsService.setDefaultMassUnit(unit);
+    $scope.defaultMass = unit;
+  }
+
+  $scope.clearSettings = function() {
+    SettingsService.clear();
+  }
+
+  $scope.confirmClear = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Are You Sure?',
+      template: 'You will be logged out and all preferences will be removed.'
+    });
+
+    confirmPopup.then(function(res) {
+      if(res) {
+        $scope.clearSettings();
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+        $state.go('app.calendar');
+      }
+    });
+  }
+  
 }])

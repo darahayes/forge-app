@@ -5,9 +5,15 @@
       <button class="button button-clear" ng-click="close_modal('exercises')">Close</button>
     </div>
   </ion-header-bar>
+  <div class="bar bar-subheader item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios7-search placeholder-icon"></i>
+      <input type="search" placeholder="search item" ng-model="search.title" ng-change="scrollTop()">
+    </label>
+  </div>
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="exercise in exercises" ng-click="addExercise(exercise)">
+      <ion-item ng-repeat="exercise in exercises | filter:search:false" ng-click="addExercise(exercise)">
         {{exercise.title}}
       </ion-item>
     </ion-list>
