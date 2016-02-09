@@ -1,14 +1,12 @@
-angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic'])
+angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic', 'Workouts'])
 
-.controller('WorkoutCtrl', ['$scope', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService', 'workout', 'editing',
-  function($scope, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService, workout, edit) {
+.controller('WorkoutCtrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService', 'workout', 'editing',
+  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService, workout, editing) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
     });
 
-    console.log('WORKOUT', JSON.stringify(workout))
-    console.log('EDIT', JSON.stringify(edit))
     $scope.exercises = exercisesService;
     $scope.workout = workout
     $scope.modals = {};
@@ -64,6 +62,10 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic']
 
     $scope.decrement = function(set) {
       if (set.reps > 0) set.reps--;
+    }
+
+    $scope.save_workout = function() {
+      WorkoutService.save_workout($scope.workout);
     }
 
     $scope.show_popup = function(set) {

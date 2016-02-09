@@ -79,6 +79,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'controllers.workout'
           return true
         }
         return false
+      },
+      date: function($stateParams) {
+        return $stateParams.date;
       }
     }
   })

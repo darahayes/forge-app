@@ -7,13 +7,14 @@ angular.module('Workouts', ['ngStorage'])
 		$localStorage.workouts = {}
 	}
 
-	function save_workout(workout, date) {
-		$localStorage.workouts[date] = workout
+	function save_workout(workout) {
+		$localStorage.workouts[workout.date] = workout
+		console.log('Workout Saved')
 	}
 
 	function get_workout(date) {
 		console.log('get_workout called')
-		return $localStorage.workouts[date] || {exercises: []};
+		return $localStorage.workouts[date] || {exercises: [], date: date};
 	}
 
 	return {
