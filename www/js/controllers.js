@@ -161,9 +161,12 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
     var days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     //find the previous month 0...11
     var previous_month = (month >= 1) ? month-1 : 11;
+    var previous_year = (previous_month === 11) ? year - 1 : year;
 
     //find the next month 0...1
     var next_month = (month < 11) ? month+1 : 0;
+    var next_year = (next_month === 0) ? year + 1: year;
+
 
     //get the first date of the month 
     var first_day = new Date(year, month, 1);
@@ -184,17 +187,17 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
       weeks.push(week);
       for (var i = 0; i <=6; i++) {
         if (day < 0) {
-          week[i] = {date: get_days_in_month(previous_month, year) + day +1, month: previous_month}
+          week[i] = {date: get_days_in_month(previous_month, year) + day +1, month: previous_month, year: previous_year}
         }
         else if (day === 0) {
           day++;
-          week[i] = {date: 1, month: month};
+          week[i] = {year: year, date: 1, month: month};
         }
         else if (day <= get_days_in_month(month, year)) {
-          week[i] = {date: day, month: month}
+          week[i] = {year: year, date: day, month: month}
         }
         else {
-          week[i] = {date: (day - get_days_in_month(month, year)), month: next_month}
+          week[i] = {date: (day - get_days_in_month(month, year)), month: next_month, year: next_year}
         }
         day++;
       }

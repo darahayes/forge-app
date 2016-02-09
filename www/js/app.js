@@ -70,8 +70,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'controllers.workout'
     },
     resolve: {
       workout: function($stateParams, WorkoutService) {
-        console.log(JSON.stringify($stateParams))
-        return WorkoutService.get_workout($stateParams.date)
+        return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       editing: function($stateParams) {
         if ($stateParams.date === moment().format('MM-DD-YYYY')) {
