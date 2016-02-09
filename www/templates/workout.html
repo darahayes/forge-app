@@ -9,10 +9,10 @@
   </button>
 </ion-footer-bar>
 <ion-content>
-    <ion-list type="list-inset" can-swipe="true" ng-repeat="exercise in workout">
+    <ion-list type="list-inset" can-swipe="true" ng-repeat="exercise in workout.exercises">
 
       <div class="item item-divider">
-        <h2>{{exercise.title}}</h2>
+        <h2>{{exercise.name}}</h2>
       </div>
 
       <ion-item ng-repeat="set in exercise.sets track by $index">

@@ -5,6 +5,7 @@
     "ionic": "driftyco/ionic-bower#1.2.0"
   },
   "dependencies": {
-    "ngstorage": "~0.3.10"
+    "ngstorage": "~0.3.10",
+    "lodash": "~4.3.0"
   }
 }

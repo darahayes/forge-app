@@ -64,12 +64,12 @@ angular.module('Users', [])
 
 .factory('exercisesService', function() {
 	var exercises = [
-    { title: 'Dumbbell Bicep Curl', id: 1 },
-    { title: 'Barbell Bicep Curl', id: 2 },
-    { title: 'EZ bar Bicep Curl', id: 3 },
-    { title: 'Preacher Curl', id: 4 },
-    { title: 'Concentration Curl', id: 5 },
-    { title: 'Hammer Curl', id: 6 }
+    { name: 'Dumbbell Bicep Curl', id: 1 },
+    { name: 'Barbell Bicep Curl', id: 2 },
+    { name: 'EZ bar Bicep Curl', id: 3 },
+    { name: 'Preacher Curl', id: 4 },
+    { name: 'Concentration Curl', id: 5 },
+    { name: 'Hammer Curl', id: 6 }
   ];
   return exercises;
 })

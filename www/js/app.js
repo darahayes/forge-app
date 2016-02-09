@@ -70,6 +70,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'controllers.workout'
     }
   })
 
+  .state('app.workout.detail', {
+    url: '/workout/:date',
+    templateUrl: 'templates/workout.html',
+    controller: 'WorkoutCtrl',
+    resolve: {
+      workout: function($stateParams, WorkoutService) {
+        return WorkoutService.get_workout($stateParams.date)
+      }
+    }
+  })
+
   .state('app.settings', {
     url: '/settings',
     views : {

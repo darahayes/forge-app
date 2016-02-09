@@ -7,10 +7,9 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic']
          $ionicSideMenuDelegate.canDragContent(true);
     });
     $scope.exercises = exercisesService;
-    $scope.workout = []
+    $scope.workout = {exercises: []}
     $scope.modals = {};
     $scope.search = '';
-    $scope.distanceUnit = SettingsService.getDefaultDistanceUnit();
 
     $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
       scope: $scope
@@ -20,23 +19,11 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic']
 
     $scope.addExercise = function(exercise) {
       
-      function alreadyAdded(x) {
-        for (ex in $scope.workout) {
-          console.log("checking id: " + x.id + " against " + ex.id)
-          if (x.id === ex.id) {
-            console.log("Exercise Already Added")
-            return true;
-          }
-        }
-        console.log("Exercise not added before")
-        return false;
-      }
-
-      if (!alreadyAdded(exercise)) {
-        console.log("Checking to see if in workout")
+      //if not already added
+      if (!_.some($scope.workout.exercises, {name: exercise.name})) {
         console.log(JSON.stringify(exercise))
         exercise.sets = [];
-        $scope.workout.push(exercise);
+        $scope.workout.exercises.push(exercise);
       }
       $scope.modals.exercises_modal.hide();
       console.log("workout: ", JSON.stringify($scope.workout));
