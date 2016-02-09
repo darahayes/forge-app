@@ -141,13 +141,14 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('CalendarCtrl', function($scope, $ionicSideMenuDelegate, $stateParams) {
+.controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $stateParams) {
   //by default start with the current month of the year
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
        $ionicSideMenuDelegate.canDragContent(false);
        console.log('moment', moment());
   });
+
   var month_labels = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var today = new Date();
   
@@ -275,7 +276,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
         $scope.clearSettings();
         $ionicHistory.nextViewOptions({
             disableBack: true
-          });
+        });
         $state.go('app.calendar');
       }
     });
