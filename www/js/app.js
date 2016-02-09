@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'controllers.workout'])
+angular.module('starter', ['ionic', 'starter.controllers', 'controllers.workout', 'Workouts'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -61,25 +61,37 @@ angular.module('starter', ['ionic', 'starter.controllers', 'controllers.workout'
     })
 
   .state('app.workout', {
-    url: '/workout',
+    url: '/workout/:date',
     views : {
       'menuContent': {
         templateUrl: 'templates/workout.html',
         controller: 'WorkoutCtrl'
       }
-    }
-  })
-
-  .state('app.workout.detail', {
-    url: '/workout/:date',
-    templateUrl: 'templates/workout.html',
-    controller: 'WorkoutCtrl',
+    },
     resolve: {
       workout: function($stateParams, WorkoutService) {
+        console.log(JSON.stringify($stateParams))
         return WorkoutService.get_workout($stateParams.date)
+      },
+      editing: function($stateParams) {
+        if ($stateParams.date === moment().format('MM-DD-YYYY')) {
+          console.log('ENTERING TODAYS WORKOUT');
+          return true
+        }
+        return false
       }
     }
   })
+
+  // .state('app.workout', {
+  //   url: '/workout',
+  //   views : {
+  //     'menuContent': {
+  //       templateUrl: 'templates/workout.html',
+  //       controller: 'WorkoutCtrl'
+  //     }
+  //   }
+  // })
 
   .state('app.settings', {
     url: '/settings',

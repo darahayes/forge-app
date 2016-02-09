@@ -1,13 +1,16 @@
 angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic'])
 
-.controller('WorkoutCtrl', ['$scope', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService',
-  function($scope, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService) {
+.controller('WorkoutCtrl', ['$scope', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService', 'workout', 'editing',
+  function($scope, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService, workout, edit) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
     });
+
+    console.log('WORKOUT', JSON.stringify(workout))
+    console.log('EDIT', JSON.stringify(edit))
     $scope.exercises = exercisesService;
-    $scope.workout = {exercises: []}
+    $scope.workout = workout
     $scope.modals = {};
     $scope.search = '';
 

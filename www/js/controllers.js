@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-  
+  $scope.moment = moment
   $scope.loggedIn = userService.isLoggedIn();
   $scope.user = userService.getUser();
 
