@@ -53,7 +53,7 @@ This will make it available through the phonegap developers app.
 <img src="./doc/img/4.png" width="270" height="480">
 
 #License
-This software is free to copy and redistribute under the [GNU General Public License v3.0](./License.md). 
+This software is free to copy and redistribute under the [GNU General Public License v3.0](./doc/license.txt). 
 
 © Darragh Hayes 2016
 
