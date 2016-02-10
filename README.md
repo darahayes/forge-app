@@ -52,6 +52,11 @@ This will make it available through the phonegap developers app.
 <img src="./doc/img/3.png" width="270" height="480">
 <img src="./doc/img/4.png" width="270" height="480">
 
+#License
+This software is free to copy and redistribute under the [GNU General Public License v3.0](./License.md). 
+
+© Darragh Hayes 2016
+
 
 
 [ionic]: http://ionicframework.com/
