@@ -14,7 +14,7 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="exercise in exercises | filter:search:false" ng-click="addExercise(exercise)">
-        {{exercise.title}}
+        {{exercise.name}}
       </ion-item>
     </ion-list>
   </ion-content>

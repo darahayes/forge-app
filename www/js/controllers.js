@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-  
+  $scope.moment = moment
   $scope.loggedIn = userService.isLoggedIn();
   $scope.user = userService.getUser();
 
@@ -138,16 +138,13 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
     $scope.exercises = exercisesService;
 }])
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-})
-
-.controller('CalendarCtrl', function($scope, $ionicSideMenuDelegate, $stateParams) {
+.controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $stateParams) {
   //by default start with the current month of the year
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
        $ionicSideMenuDelegate.canDragContent(false);
-       console.log('moment', moment());
   });
+
   var month_labels = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var today = new Date();
   
@@ -161,9 +158,12 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
     var days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     //find the previous month 0...11
     var previous_month = (month >= 1) ? month-1 : 11;
+    var previous_year = (previous_month === 11) ? year - 1 : year;
 
     //find the next month 0...1
     var next_month = (month < 11) ? month+1 : 0;
+    var next_year = (next_month === 0) ? year + 1: year;
+
 
     //get the first date of the month 
     var first_day = new Date(year, month, 1);
@@ -184,17 +184,17 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
       weeks.push(week);
       for (var i = 0; i <=6; i++) {
         if (day < 0) {
-          week[i] = {date: get_days_in_month(previous_month, year) + day +1, month: previous_month}
+          week[i] = {date: get_days_in_month(previous_month, year) + day +1, month: previous_month, year: previous_year}
         }
         else if (day === 0) {
           day++;
-          week[i] = {date: 1, month: month};
+          week[i] = {year: year, date: 1, month: month};
         }
         else if (day <= get_days_in_month(month, year)) {
-          week[i] = {date: day, month: month}
+          week[i] = {year: year, date: day, month: month}
         }
         else {
-          week[i] = {date: (day - get_days_in_month(month, year)), month: next_month}
+          week[i] = {date: (day - get_days_in_month(month, year)), month: next_month, year: next_year}
         }
         day++;
       }
@@ -239,119 +239,6 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
 
 })
 
-.controller('WorkoutCtrl', ['$scope', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService',
-  function($scope, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService) {
-    $scope.$on('$ionicView.enter', function() {
-         // Code you want executed every time view is opened
-         $ionicSideMenuDelegate.canDragContent(true);
-    });
-    $scope.exercises = exercisesService;
-    $scope.workout = []
-    $scope.modals = {};
-    $scope.search = '';
-    $scope.distanceUnit = SettingsService.getDefaultDistanceUnit();
-
-    $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modals.exercises_modal= modal;
-    });
-
-    $scope.addExercise = function(exercise) {
-      
-      function alreadyAdded(x) {
-        for (ex in $scope.workout) {
-          console.log("checking id: " + x.id + " against " + ex.id)
-          if (x.id === ex.id) {
-            console.log("Exercise Already Added")
-            return true;
-          }
-        }
-        console.log("Exercise not added before")
-        return false;
-      }
-
-      if (!alreadyAdded(exercise)) {
-        console.log("Checking to see if in workout")
-        console.log(JSON.stringify(exercise))
-        exercise.sets = [];
-        $scope.workout.push(exercise);
-      }
-      $scope.modals.exercises_modal.hide();
-      console.log("workout: ", JSON.stringify($scope.workout));
-    }
-
-    $scope.show_modal = function(modal) {
-      $scope.modals[modal + '_modal'].show();
-    }
-
-    $scope.close_modal = function(modal) {
-      $scope.modals[modal + '_modal'].hide();
-    };
-
-    $scope.addSet = function(exercise) {
-      var next = {unit: SettingsService.getDefaultMassUnit()}
-      if (exercise.sets.length > 0) {
-        var previous = exercise.sets[exercise.sets.length-1];
-        next.reps = (previous.reps) ? previous.reps : 0;
-        next.weight = (previous.weight) ? previous.weight : null;
-      }
-      exercise.sets.push(next);
-    }
-
-    $scope.remove_set = function(index, exercise) {
-      console.log('remove set called', index, exercise)
-      $ionicListDelegate.closeOptionButtons();
-      exercise.sets.splice(index, 1)
-    }
-
-    $scope.increment = function(set) {
-      if (!set.reps) set.reps = 0;
-      console.log('increment called')
-      set.reps++;
-    }
-
-    $scope.decrement = function(set) {
-      if (set.reps > 0) set.reps--;
-    }
-
-    $scope.show_popup = function(set) {
-      $scope.popup = {
-        weight: null,
-        increment: function() {
-          this.weight = this.weight + 2.5;
-        },
-        decrement: function() {
-          if (this.weight >= 0 && this.weight <= 2.5) {
-            this.weight = 0;
-          }
-          else if (this.weight > 2.5) {
-            this.weight = this.weight - 2.5;
-          }
-        }
-      }
-      console.log("popup function");
-      var weight_popup = $ionicPopup.show({
-        templateUrl: 'templates/weight_popup.html',
-        title: 'Weight',
-        scope: $scope,
-        buttons: [
-          {text: 'Cancel'},
-          {
-            text: 'Save',
-            type: 'button-positive',
-            onTap: function(e) {
-              return $scope.popup.weight;
-            }
-          }
-        ]
-      })
-
-      weight_popup.then(function(res) {
-        set.weight = (res) ? res : 0;
-      })
-    }
-}])
 
 .controller('SettingsCtrl', ['$scope', '$state', '$ionicHistory', 'SettingsService', '$ionicPopup', function($scope, $state, $ionicHistory, SettingsService, $ionicPopup) {
   $scope.distanceUnits = SettingsService.getDistanceUnits();
@@ -385,7 +272,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
         $scope.clearSettings();
         $ionicHistory.nextViewOptions({
             disableBack: true
-          });
+        });
         $state.go('app.calendar');
       }
     });
