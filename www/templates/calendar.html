@@ -17,7 +17,7 @@
         <div class="col text-center"><p class="weekday">Sun</p></div>
       </div>
       </ion-item>
-      <ion-item ng-repeat="week in weeks">
+      <ion-item collection-repeat="week in weeks">
           <div class="row row-no-padding">
             <div class="col text-center" ng-repeat="day in week"><a class="button button-small button-clear" ng-class="(day.month != month) ? 'button-stable' : 'button-dark'" ui-sref="app.workout({date: day.month+1 + '-' + day.date + '-' + day.year})">{{day.date}}</a></div>
           </div>
