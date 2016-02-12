@@ -61,15 +61,3 @@ angular.module('Users', [])
     isLoggedIn: isLoggedIn
   }
 }])
-
-.factory('exercisesService', function() {
-	var exercises = [
-    { name: 'Dumbbell Bicep Curl', id: 1 },
-    { name: 'Barbell Bicep Curl', id: 2 },
-    { name: 'EZ bar Bicep Curl', id: 3 },
-    { name: 'Preacher Curl', id: 4 },
-    { name: 'Concentration Curl', id: 5 },
-    { name: 'Hammer Curl', id: 6 }
-  ];
-  return exercises;
-})

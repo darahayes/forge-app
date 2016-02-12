@@ -129,7 +129,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
 
 })
 
-.controller('ExercisesCtrl', ['$scope', '$ionicSideMenuDelegate', 'exercisesService',
+.controller('ExercisesCtrl', ['$scope', '$ionicSideMenuDelegate', 'ExercisesService',
   function($scope, $ionicSideMenuDelegate, exercisesService) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
