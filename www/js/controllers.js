@@ -135,7 +135,13 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
     });
-    $scope.exercises = exercisesService;
+    exercisesService.get_exercises(function(err, exercises) {
+      if (err) {'Must handle the error'}
+      else if (exercises) {
+        console.log('Woo we got the exercises in the Exercises View')
+        $scope.exercises = exercises;
+      }
+    });
 }])
 
 .controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $stateParams) {
