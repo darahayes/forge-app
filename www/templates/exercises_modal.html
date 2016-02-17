@@ -1,19 +1,14 @@
 <ion-modal-view view-title="Exercises">
-<ion-header-bar>
+<ion-header-bar class="bar-positive">
     <h1 class="title">Exercises</h1>
     <div class="buttons">
-      <button class="button button-clear" ng-click="close_modal('exercises')">Close</button>
+      <button class="button button-icon ion-android-search" ng-click="showSearchBar()"></button>
+      <button class="button button-icon ion-android-close" ng-click="close_modal('exercises')"></button>
     </div>
   </ion-header-bar>
-  <div class="bar bar-subheader item-input-inset">
-    <label class="item-input-wrapper">
-      <i class="icon ion-ios7-search placeholder-icon"></i>
-      <input type="search" placeholder="search item" ng-model="search.title" ng-change="scrollTop()">
-    </label>
-  </div>
   <ion-content>
     <ion-list>
-      <ion-item collection-repeat="exercise in exercises" item-height="10%" item-width="100%" ng-click="addExercise(exercise)">
+      <ion-item collection-repeat="exercise in exercises" ng-click="addExercise(exercise)">
         {{exercise.name}}
       </ion-item>
     </ion-list>

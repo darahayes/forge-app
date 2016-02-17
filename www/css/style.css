@@ -66,3 +66,7 @@ ion-popover-view.fit ion-content {
 .platform-android ion-popover-view.fit {
   margin-top: 10px !important;
 }
+
+.filter-bar-open.modal-open { 
+    pointer-events: auto 
+}
