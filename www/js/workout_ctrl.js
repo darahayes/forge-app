@@ -1,13 +1,21 @@
-angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic', 'Workouts'])
+angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic', 'Workouts', 'Exercises'])
 
-.controller('WorkoutCtrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', 'exercisesService', 'workout', 'editing',
-  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, exercisesService, workout, editing) {
+.controller('WorkoutCtrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService', 'workout', 'editing',
+  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService, workout, editing) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
     });
 
-    $scope.exercises = exercisesService;
+    var searchBar;
+
+    ExercisesService.get_exercises(function(err, exercises) {
+      if (err) {'Must handle the error'}
+      else if (exercises) {
+        console.log('Woo we got the exercises')
+        $scope.exercises = exercises;
+      }
+    });
     $scope.workout = workout
     $scope.modals = {};
     $scope.search = '';
@@ -25,6 +33,7 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
         console.log(JSON.stringify(exercise))
         exercise.sets = [];
         $scope.workout.exercises.push(exercise);
+        searchBar()
       }
       $scope.modals.exercises_modal.hide();
       console.log("workout: ", JSON.stringify($scope.workout));
@@ -67,6 +76,18 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     $scope.save_workout = function() {
       WorkoutService.save_workout($scope.workout);
     }
+
+    $scope.showSearchBar = function() {
+      searchBar = $ionicFilterBar.show({
+        items: $scope.exercises,
+        update: function (filteredItems, filterText) {
+          $scope.exercises = filteredItems;
+          if (filterText) {
+            console.log(filterText);
+          }
+        }
+      });
+    };
 
     $scope.show_popup = function(set) {
       $scope.popup = {

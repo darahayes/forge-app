@@ -9,13 +9,13 @@
   </button>
 </ion-footer-bar>
 <ion-content>
-    <ion-list type="list-inset" can-swipe="true" collection-repeat="exercise in workout.exercises">
+    <ion-list type="list-inset" can-swipe="true" ng-repeat="exercise in workout.exercises">
 
       <div class="item item-divider">
         <h2>{{exercise.name}}</h2>
       </div>
 
-      <ion-item collection-repeat="set in exercise.sets track by $index">
+      <ion-item ng-repeat="set in exercise.sets track by $index">
         <div class="row item-text-center">
             <div class="col">
               <button class="button button-clear button-dark button-small">{{$index + 1}}.</button>
