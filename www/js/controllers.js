@@ -143,11 +143,25 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
       }
     });
 
-    $ionicPopover.fromTemplateUrl('templates/popover.html', {
-        scope: $scope,
-      }).then(function(popover) {
-        $scope.popover = popover;
+    var searchBar;
+
+    $scope.showSearchBar = function() {
+      searchBar = $ionicFilterBar.show({
+        items: $scope.exercises,
+        update: function (filteredItems, filterText) {
+          $scope.exercises = filteredItems;
+          if (filterText) {
+            console.log(filterText);
+          }
+        }
       });
+    };
+
+    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+      scope: $scope,
+    }).then(function(popover) {
+      $scope.popover = popover;
+    });
 
     $scope.popoverOptions = [
       {
