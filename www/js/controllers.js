@@ -129,8 +129,8 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
 
 })
 
-.controller('ExercisesCtrl', ['$scope', '$ionicSideMenuDelegate', 'ExercisesService', '$ionicFilterBar',
-  function($scope, $ionicSideMenuDelegate, exercisesService, $ionicFilterBar) {
+.controller('ExercisesCtrl', ['$scope', '$ionicSideMenuDelegate', 'ExercisesService', '$ionicFilterBar', '$ionicPopover',
+  function($scope, $ionicSideMenuDelegate, exercisesService, $ionicFilterBar, $ionicPopover) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
@@ -142,6 +142,23 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic']
         $scope.exercises = exercises;
       }
     });
+
+    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+        scope: $scope,
+      }).then(function(popover) {
+        $scope.popover = popover;
+      });
+
+    $scope.popoverOptions = [
+      {
+        name: 'Add Exercise',
+        onClick: function() {
+          console.log('Add Exercise Clicked');
+          $scope.popover.hide()
+          //TODO bring up an add exercise menu
+        }
+      }
+    ]
 }])
 
 .controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $stateParams) {
