@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controllers', 'controllers.workout', 'Workouts', 'Exercises'])
+angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controllers', 'controllers.workout', 'Workouts', 'Exercises', 'connection'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
 .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', function($httpProvider, $stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
@@ -84,16 +84,6 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
       }
     }
   })
-
-  // .state('app.workout', {
-  //   url: '/workout',
-  //   views : {
-  //     'menuContent': {
-  //       templateUrl: 'templates/workout.html',
-  //       controller: 'WorkoutCtrl'
-  //     }
-  //   }
-  // })
 
   .state('app.settings', {
     url: '/settings',

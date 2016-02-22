@@ -1,8 +1,8 @@
 angular.module('Exercises', ['ngStorage'])
 
-.factory('ExercisesService', ['$http', '$localStorage', function($http, $localStorage) {
+.factory('ExercisesService', ['$http', '$localStorage', 'Connection', function($http, $localStorage, Connection) {
 
-	var host = '192.168.192.58';
+	var base_url = Connection.url;
 	var localExercises = $localStorage.exercises;
 
 	function get_exercises(cb) {
@@ -18,7 +18,7 @@ angular.module('Exercises', ['ngStorage'])
 	}
 
 	function fetch_exercises(cb) {
-		$http.get('http://'+host+':4000/api/exercises')
+		$http.get(base_url + '/api/exercises')
 		.then(function(response) {
 			console.log('good')
 			$localStorage.exercises = response.data;

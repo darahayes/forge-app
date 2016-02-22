@@ -1,11 +1,11 @@
 angular.module('Users', [])
 
-.factory('userService', ['$http', 'authService', function($http, authService) {
+.factory('userService', ['$http', 'authService', 'Connection', function($http, authService, Connection) {
   
-  var host = '192.168.43.27';
+  var base_url = Connection.url;
 
   function register(signupData, cb) {
-    $http.post('http://'+host+':4000/api/register', signupData)
+    $http.post(base_url + '/api/register', signupData)
     .then(function success(response, status, headers) {
       if (response.data.user) {
         authService.storeUser(response.data)
@@ -18,7 +18,7 @@ angular.module('Users', [])
   }
   
   function login(loginData, cb) {
-    return $http.post('http://'+host+':4000/api/login', loginData)
+    return $http.post(base_url + '/api/login', loginData)
     .then(function success(response, status, headers) {
       if (response.data.user) {
         authService.storeUser(response.data)
@@ -32,7 +32,7 @@ angular.module('Users', [])
   }
 
   function logout(cb) {
-    return $http.post('http://'+host+':4000/api/logout')
+    return $http.post(base_url + '/api/logout')
     .then(function success(response, status, headers) {
       if (response.data) {
         authService.clearLogin();
