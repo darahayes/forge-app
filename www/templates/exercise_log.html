@@ -20,16 +20,16 @@
             <button class="button button-clear button-dark button-small" ng-click="show_popup(set)">{{set.weight}}{{ set.unit || massUnit}}</button>
           </div>
           <div class="col col-offset-20">
-            <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="decrement(set)"></button>
+            <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="model.decrement(set)"></button>
           </div>
           <div class="col-20 item-input text-center">
               <input text-align="center" type="number" placeholder="reps" ng-model="set.reps" ng-init="reps"></input>
           </div>
           <div class="col">
-            <button class="button button-clear button-dark button-small icon ion-plus-round rep-button" ng-click="increment(set)"></button>
+            <button class="button button-clear button-dark button-small icon ion-plus-round rep-button" ng-click="model.increment(set)"></button>
           </div>
         </div>
-        <ion-option-button ng-click="remove_set($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
+        <ion-option-button ng-click="model.remove_set($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
     </ion-item>
     </ion-list>
 

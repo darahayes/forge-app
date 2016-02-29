@@ -83,12 +83,6 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       }
     });
 
-    $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.model.exercises_modal= modal;
-    });
-
     $scope.search = '';
     var searchBar;
 
@@ -119,6 +113,12 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     console.log('\n\nCHILD Workout', JSON.stringify($scope.model.workout));
     console.log('FROM CHILD DATE', date);
     console.log('FROM CHILD WORKOUT', JSON.stringify(workout));
+
+    $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.model.exercises_modal = modal;
+    });
 
     $scope.show_popup = function(set) {
       $scope.popup = {
