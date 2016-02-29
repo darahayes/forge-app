@@ -132,6 +132,11 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       $state.go('app.workout.exercise', {date: $scope.date, exercise_index: $scope.workout.exercises.length-1})
       $scope.model.exercises_modal.hide();
     }
+
+    $scope.isSelected = function($index) {
+      console.log('Index', $index)
+      return true;
+    }
 }])
 
 .controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$state', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',

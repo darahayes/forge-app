@@ -8,27 +8,25 @@
     </button>
   </ion-footer-bar>
   <ion-content>
-      <ion-list type="card" can-swipe="true" ng-repeat="exercise in workout.exercises track by $index">
 
-        <div ui-sref="app.workout.exercise({exercise_index :$index})" class="item item-divider selected-header">
-          <h2>{{exercise.name}}</h2>
+        <div class="list card" ng-repeat="exercise in workout.exercises track by $index" ng-class="{'selected': isSelected(exercise.name)}">
+          <div ui-sref="app.workout.exercise({exercise_index :$index})" class="item item-divider" ng-class="{'selected': isSelected((exercise.name))}">
+            <h2>{{exercise.name}}</h2>
+          </div>
+          <div class="item no-padding">
+            <div class="row" ng-repeat="set in exercise.sets track by $index">
+                <div class="col">
+                  {{$index + 1}}.
+                </div>
+                <div class="col col-offset-10">
+                  {{set.weight}}{{ set.unit || massUnit}}
+                </div>
+                <div class="col-20 item-input text-center">
+                    {{set.reps}}
+                </div>
+              </div>
+          </div>
         </div>
-
-        <div class="selected" ng-repeat="set in exercise.sets track by $index">
-          <div class="row">
-              <div class="col">
-                {{$index + 1}}.
-              </div>
-              <div class="col col-offset-10">
-                {{set.weight}}{{ set.unit || massUnit}}
-              </div>
-              <div class="col-20 item-input text-center">
-                  {{set.reps}}
-              </div>
-            </div>
-        </div>
-
-      </ion-list>
       <div class="bottom-margin">
       </div>
   </ion-content>
