@@ -10,12 +10,12 @@
   <ion-content>
       <ion-list type="card" can-swipe="true" ng-repeat="exercise in workout.exercises track by $index">
 
-        <div ui-sref="app.workout.exercise({exercise_index :$index})" class="item item-divider">
+        <div ui-sref="app.workout.exercise({exercise_index :$index})" class="item item-divider selected-header">
           <h2>{{exercise.name}}</h2>
         </div>
 
-        <ion-item ng-repeat="set in exercise.sets track by $index">
-          <div class="row item-text-center">
+        <div class="selected" ng-repeat="set in exercise.sets track by $index">
+          <div class="row">
               <div class="col">
                 {{$index + 1}}.
               </div>
@@ -26,8 +26,7 @@
                   {{set.reps}}
               </div>
             </div>
-            <ion-option-button ng-click="model.remove_set($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
-        </ion-item>
+        </div>
 
       </ion-list>
       <div class="bottom-margin">

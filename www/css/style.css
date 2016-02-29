@@ -70,3 +70,11 @@ ion-popover-view.fit ion-content {
 .filter-bar-open.modal-open { 
     pointer-events: auto 
 }
+
+.selected {
+    background: rgba(0, 191, 255, 0.15);
+}
+
+.selected-header {
+    background: rgba(0, 191, 255, 0.25);
+}
