@@ -17,37 +17,37 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item ng-show="loggedIn" menu-close class="item item-icon-left" href="#">
+        <ion-item ng-show="loggedIn" menu-toggle class="item item-icon-left" ui-sref="#">
           <i class="icon ion-person"></i>
              {{user.name}}
         </ion-item>
-        <ion-item ng-hide="loggedIn" menu-close class="item item-icon-left" ng-click="login()">
+        <ion-item ng-hide="loggedIn" menu-toggle class="item item-icon-left" ng-click="login()">
           <i class="icon ion-log-in"></i>
              Login
         </ion-item>
-        <ion-item menu-close class="item item-icon-left" ui-sref="app.workout.overview({date: moment().format('MM-DD-YYYY')})">
+        <ion-item menu-toggle class="item item-icon-left" ui-sref="app.workout.overview({date: moment().format('MM-DD-YYYY')})">
           <i class="icon ion-compose"></i>
              Log Workout
         </ion-item>
-        <ion-item menu-close class="item item-icon-left" href="#/app/calendar">
+        <ion-item menu-toggle class="item item-icon-left" ui-sref="app.calendar">
           <i class="icon ion-calendar"></i>
              Calendar
         </ion-item>
-        <ion-item menu-close class="item item-icon-left" href="#/app/browse">
+        <ion-item menu-toggle class="item item-icon-left" ui-sref="#">
           <i class="icon ion-arrow-graph-up-right"></i>
              Goals
         </ion-item>
-        <ion-item menu-close class="item item-icon-left" href="#/app/exercises">
+        <ion-item menu-toggle class="item item-icon-left" ui-sref="app.exercises">
           <i class="icon ion-more"></i>
              Exercises
         </ion-item>
         <div class="item item-divider"></div>
-        <ion-item menu-close class="item item-icon-left" href="#/app/settings">
+        <ion-item menu-toggle class="item item-icon-left" ui-sref="app.settings">
           <i class="icon ion-gear-a"></i>
              Preferences
         </ion-item>
         <div ng-show="loggedIn">
-          <ion-item menu-close class="item item-icon-left" ng-click="confirm_logout()">
+          <ion-item menu-toggle class="item item-icon-left" ng-click="confirm_logout()">
             <i class="icon ion-log-out"></i>
                Logout
           </ion-item>

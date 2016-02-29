@@ -1,9 +1,16 @@
 <ion-view view-title="Log Exercise">
+<ion-nav-back-button>
+</ion-nav-back-button>
+<ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-chevron-left" ng-click="goBack()">
+      </button>
+</ion-nav-buttons>
   <ion-content>
     <div class="item item-divider">
       <h2>{{exercise.name}}</h2>
     </div>
 
+    <ion-list>
     <ion-item ng-repeat="set in exercise.sets track by $index">
       <div class="row item-text-center">
           <div class="col">
@@ -24,6 +31,7 @@
         </div>
         <ion-option-button ng-click="remove_set($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
     </ion-item>
+    </ion-list>
 
   </ion-content>
 </ion-view>

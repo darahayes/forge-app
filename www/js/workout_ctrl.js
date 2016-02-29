@@ -111,7 +111,6 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
     });   
-
     $scope.workout = workout;
     $scope.date = date;
     $scope.model = $scope.model;
@@ -159,12 +158,17 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
 }])
 
-.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
-  function($scope, WorkoutService, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
+.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$ionicHistory', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
+  function($scope, WorkoutService, $ionicHistory, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
     $scope.exercise = workout.exercises[exercise_index];
     console.log('EXERCISE LOG CONTROL')
     console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
     console.log('exercise_index', exercise_index)
     console.log('Workout', JSON.stringify($scope.model.workout, null, 2))
+
+    $scope.goBack = function() {
+      console.log(JSON.stringify($ionicHistory.viewHistory(), null, 2))
+      $ionicHistory.goBack();
+    }
   }
 ])
