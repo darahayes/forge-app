@@ -132,6 +132,24 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       $state.go('app.workout.exercise', {date: $scope.date, exercise_index: $scope.workout.exercises.length-1})
       $scope.model.exercises_modal.hide();
     }
+}])
+
+.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$state', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
+  function($scope, WorkoutService, $state, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
+    $scope.exercise = workout.exercises[exercise_index];
+    console.log('EXERCISE LOG CONTROL')
+    console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
+    console.log('exercise_index', exercise_index)
+    console.log('Workout', JSON.stringify($scope.model.workout, null, 2))
+
+    console.log('EXERCISE SETS LENGTH', $scope.exercise.sets.length)
+
+    $scope.goBack = function() {
+      if ($scope.exercise.sets.length === 0) {
+        $scope.model.removeExercise(workout, exercise_index)
+      }
+      $state.go('app.workout.overview', {date: workout.date});
+    }
 
     $scope.show_popup = function(set) {
       $scope.popup = {
@@ -168,24 +186,6 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       weight_popup.then(function(res) {
         set.weight = (res) ? res : 0;
       })
-    }
-}])
-
-.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$state', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
-  function($scope, WorkoutService, $state, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
-    $scope.exercise = workout.exercises[exercise_index];
-    console.log('EXERCISE LOG CONTROL')
-    console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
-    console.log('exercise_index', exercise_index)
-    console.log('Workout', JSON.stringify($scope.model.workout, null, 2))
-
-    console.log('EXERCISE SETS LENGTH', $scope.exercise.sets.length)
-
-    $scope.goBack = function() {
-      if ($scope.exercise.sets.length === 0) {
-        $scope.model.removeExercise(workout, exercise_index)
-      }
-      $state.go('app.workout.overview', {date: workout.date});
     }
   }
 ])
