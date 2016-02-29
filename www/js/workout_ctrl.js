@@ -9,6 +9,7 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
 
     $scope.model = {
       addExercise: addExercise,
+      removeExercise: removeExercise,
       addSet: addSet,
       remove_set: remove_set,
       increment: increment,
@@ -32,6 +33,12 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       }
       save_workout(workout);
       console.log("workout: ", JSON.stringify(workout));
+    }
+
+    function removeExercise(workout, index) {
+      workout.exercises.splice(index, 1);
+      save_workout(workout);
+      console.log('remoive exercise called')
     }
 
     function addSet(exercise) {
@@ -164,17 +171,21 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
 }])
 
-.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$ionicHistory', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
-  function($scope, WorkoutService, $ionicHistory, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
+.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$state', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
+  function($scope, WorkoutService, $state, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
     $scope.exercise = workout.exercises[exercise_index];
     console.log('EXERCISE LOG CONTROL')
     console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
     console.log('exercise_index', exercise_index)
     console.log('Workout', JSON.stringify($scope.model.workout, null, 2))
 
+    console.log('EXERCISE SETS LENGTH', $scope.exercise.sets.length)
+
     $scope.goBack = function() {
-      console.log(JSON.stringify($ionicHistory.viewHistory(), null, 2))
-      $ionicHistory.goBack();
+      if ($scope.exercise.sets.length === 0) {
+        $scope.model.removeExercise(workout, exercise_index)
+      }
+      $state.go('app.workout.overview', {date: workout.date});
     }
   }
 ])

@@ -9,7 +9,7 @@
   </button>
 </ion-footer-bar>
 <ion-content>
-    <ion-list type="list-inset" can-swipe="true" ng-repeat="exercise in workout.exercises track by $index">
+    <ion-list type="card" can-swipe="true" ng-repeat="exercise in workout.exercises track by $index">
 
       <div ui-sref="app.workout.exercise({exercise_index :$index})" class="item item-divider">
         <h2>{{exercise.name}}</h2>
@@ -18,34 +18,18 @@
       <ion-item ng-repeat="set in exercise.sets track by $index">
         <div class="row item-text-center">
             <div class="col">
-              <button class="button button-clear button-dark button-small">{{$index + 1}}.</button>
+              {{$index + 1}}.
             </div>
             <div class="col col-offset-10">
-              <button class="button button-clear button-dark button-small" ng-click="show_popup(set)">{{set.weight}}{{ set.unit || massUnit}}</button>
-            </div>
-            <div class="col col-offset-20">
-              <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="model.decrement(set)"></button>
+              {{set.weight}}{{ set.unit || massUnit}}
             </div>
             <div class="col-20 item-input text-center">
-                <input text-align="center" type="number" placeholder="reps" ng-model="set.reps" ng-init="reps"></input>
-            </div>
-            <div class="col">
-              <button class="button button-clear button-dark button-small icon ion-plus-round rep-button" ng-click="model.increment(set)"></button>
+                {{set.reps}}
             </div>
           </div>
           <ion-option-button ng-click="model.remove_set($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
       </ion-item>
 
-      <a class="item" ng-click="model.addSet(exercise)">
-        <div class="row row-no-padding">
-          <div class="col">
-            <i class="icon-left ion-plus-round"></i>
-          </div>
-          <div class="col col-75">
-            Set
-          </div>
-        </div>
-      </a>
     </ion-list>
     <div class="bottom-margin">
     </div>
