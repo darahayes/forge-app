@@ -1,53 +1,43 @@
 angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic', 'Workouts', 'Exercises'])
 
-.controller('WorkoutCtrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService', 'workout', 'editing',
-  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService, workout, editing) {
+.controller('WorkoutCtrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService',
+  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
     });
 
-    var searchBar;
+    $scope.model = {
+      addExercise: addExercise,
+      addSet: addSet,
+      remove_set: remove_set,
+      increment: increment,
+      decrement: decrement,
+      save_workout: save_workout,
+      show_exercises: show_exercises,
+      hide_exercises: hide_exercises,
+      showSearchBar: showSearchBar
+    }
 
-    ExercisesService.get_exercises(function(err, exercises) {
-      if (err) {'Must handle the error'}
-      else if (exercises) {
-        console.log('Woo we got the exercises')
-        $scope.exercises = exercises;
-      }
-    });
-    $scope.workout = workout
-    $scope.modals = {};
-    $scope.search = '';
+    console.log('Parent Workout controller initiated');
 
-    $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modals.exercises_modal= modal;
-    });
-
-    $scope.addExercise = function(exercise) {
-      
+    function addExercise(workout, exercise) {
       //if not already added
-      if (!_.some($scope.workout.exercises, {name: exercise.name})) {
+      if (!_.some(workout.exercises, {name: exercise.name})) {
         console.log(JSON.stringify(exercise))
         exercise.sets = [];
-        $scope.workout.exercises.push(exercise);
-        searchBar()
+        workout.exercises.push(exercise);
+        if (searchBar) { 
+          console.log('Added exercise while search bar was open')
+          searchBar(); 
+        }
       }
-      $scope.modals.exercises_modal.hide();
-      console.log("workout: ", JSON.stringify($scope.workout));
+      $scope.model.exercises_modal.hide();
+      save_workout(workout);
+      console.log("workout: ", JSON.stringify(workout));
     }
 
-    $scope.show_modal = function(modal) {
-      $scope.modals[modal + '_modal'].show();
-    }
-
-    $scope.close_modal = function(modal) {
-      $scope.modals[modal + '_modal'].hide();
-    };
-
-    $scope.addSet = function(exercise) {
+    function addSet(exercise) {
       var next = {unit: SettingsService.getDefaultMassUnit()}
       if (exercise.sets.length > 0) {
         var previous = exercise.sets[exercise.sets.length-1];
@@ -57,37 +47,79 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       exercise.sets.push(next);
     }
 
-    $scope.remove_set = function(index, exercise) {
+    function remove_set(index, exercise) {
       console.log('remove set called', index, exercise)
       $ionicListDelegate.closeOptionButtons();
       exercise.sets.splice(index, 1)
     }
 
-    $scope.increment = function(set) {
+    function increment(set) {
       if (!set.reps) set.reps = 0;
       console.log('increment called')
       set.reps++;
     }
 
-    $scope.decrement = function(set) {
+    function decrement(set) {
       if (set.reps > 0) set.reps--;
     }
 
-    $scope.save_workout = function() {
-      WorkoutService.save_workout($scope.workout);
+    function save_workout(workout) {
+      WorkoutService.save_workout(workout);
     }
 
-    $scope.showSearchBar = function() {
+    function show_exercises() {
+      $scope.model.exercises_modal.show();
+    }
+
+    function hide_exercises() {
+      $scope.model.exercises_modal.hide();
+    }
+
+    ExercisesService.get_exercises(function(err, exercises) {
+      if (err) {'Must handle the error'}
+      else if (exercises) {
+        console.log('Woo we got the exercises')
+        $scope.model.exercises = exercises;
+      }
+    });
+
+    $ionicModal.fromTemplateUrl('templates/exercises_modal.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.model.exercises_modal= modal;
+    });
+
+    $scope.search = '';
+    var searchBar;
+
+    function showSearchBar() {
       searchBar = $ionicFilterBar.show({
-        items: $scope.exercises,
+        items: $scope.model.exercises,
         update: function (filteredItems, filterText) {
-          $scope.exercises = filteredItems;
+          $scope.model.exercises = filteredItems;
           if (filterText) {
             console.log(filterText);
           }
         }
       });
     };
+}])
+
+.controller('workout_overview_ctrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService', 'workout', 'date',
+  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService, workout, date) {
+    $scope.$on('$ionicView.enter', function() {
+         // Code you want executed every time view is opened
+         $ionicSideMenuDelegate.canDragContent(true);
+    });   
+
+    $scope.workout = workout;
+    $scope.date = date;
+    $scope.model = $scope.model;
+
+    console.log('Child Workout controller initiated');
+    console.log('\n\nCHILD Workout', JSON.stringify($scope.model.workout));
+    console.log('FROM CHILD DATE', date);
+    console.log('FROM CHILD WORKOUT', JSON.stringify(workout));
 
     $scope.show_popup = function(set) {
       $scope.popup = {
@@ -126,3 +158,13 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       })
     }
 }])
+
+.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
+  function($scope, WorkoutService, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
+    $scope.exercise = workout.exercises[exercise_index];
+    console.log('EXERCISE LOG CONTROL')
+    console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
+    console.log('exercise_index', exercise_index)
+    console.log('Workout', JSON.stringify($scope.model.workout, null, 2))
+  }
+])

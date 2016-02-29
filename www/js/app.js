@@ -61,26 +61,55 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     })
 
   .state('app.workout', {
+    abstract: true,
     url: '/workout/:date',
     views : {
       'menuContent': {
         templateUrl: 'templates/workout.html',
         controller: 'WorkoutCtrl'
       }
+    }
+  })
+
+  .state('app.workout.overview', {
+    url: '/overview',
+    views : {
+      'workoutView' : {
+        templateUrl: 'templates/workout_overview.html',
+        controller: 'workout_overview_ctrl'
+      }
     },
     resolve: {
       workout: function($stateParams, WorkoutService) {
+        console.log($stateParams.date)
+        console.log(JSON.stringify(WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'))))
         return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
-      },
-      editing: function($stateParams) {
-        if ($stateParams.date === moment().format('MM-DD-YYYY')) {
-          console.log('ENTERING TODAYS WORKOUT');
-          return true
-        }
-        return false
       },
       date: function($stateParams) {
         return $stateParams.date;
+      }
+    }
+  })
+
+  .state('app.workout.exercise', {
+    //:exercise is an index for workout.exercises
+    url: '/exercise/:exercise_index',
+    views: {
+      workoutView: {
+        templateUrl: 'templates/exercise_log.html',
+        controller: 'exercise_log_ctrl'
+      }
+    },
+    resolve: {
+      workout: function($stateParams, WorkoutService) {
+        console.log($stateParams.date)
+        console.log(JSON.stringify(WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'))))
+        return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
+      },
+      exercise_index: function($stateParams) {
+        console.log(JSON.stringify($stateParams))
+        console.log('\n\nEXERCISE INDEX RESOLVE FUNCTION CALLED\n\n\n\n\n\n\n\n\n\n')
+        return $stateParams.exercise_index;
       }
     }
   })
