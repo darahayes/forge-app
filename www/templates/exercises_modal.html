@@ -3,12 +3,12 @@
     <h1 class="title">Exercises</h1>
     <div class="buttons">
       <button class="button button-icon ion-android-search" ng-click="model.showSearchBar()"></button>
-      <button class="button button-icon ion-android-close" ng-click="model.hide_exercises()"></button>
+      <button class="button button-icon ion-android-close" ng-click="hide_exercises()"></button>
     </div>
   </ion-header-bar>
   <ion-content>
     <ion-list>
-      <ion-item collection-repeat="exercise in model.exercises" ng-click="model.addExercise(workout, exercise)">
+      <ion-item collection-repeat="exercise in model.exercises" ng-click="addExercise(exercise)">
         {{exercise.name}}
       </ion-item>
     </ion-list>

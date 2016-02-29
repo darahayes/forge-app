@@ -1,7 +1,7 @@
 angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic', 'Workouts', 'Exercises'])
 
-.controller('WorkoutCtrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService',
-  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService) {
+.controller('WorkoutCtrl', ['$scope', '$state', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService',
+  function($scope, $state, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
@@ -14,8 +14,6 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       increment: increment,
       decrement: decrement,
       save_workout: save_workout,
-      show_exercises: show_exercises,
-      hide_exercises: hide_exercises,
       showSearchBar: showSearchBar
     }
 
@@ -32,7 +30,6 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
           searchBar(); 
         }
       }
-      $scope.model.exercises_modal.hide();
       save_workout(workout);
       console.log("workout: ", JSON.stringify(workout));
     }
@@ -67,14 +64,6 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       WorkoutService.save_workout(workout);
     }
 
-    function show_exercises() {
-      $scope.model.exercises_modal.show();
-    }
-
-    function hide_exercises() {
-      $scope.model.exercises_modal.hide();
-    }
-
     ExercisesService.get_exercises(function(err, exercises) {
       if (err) {'Must handle the error'}
       else if (exercises) {
@@ -99,8 +88,8 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     };
 }])
 
-.controller('workout_overview_ctrl', ['$scope', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService', 'workout', 'date',
-  function($scope, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService, workout, date) {
+.controller('workout_overview_ctrl', ['$scope', '$state', '$ionicHistory', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService', 'workout', 'date',
+  function($scope, $state, $ionicHistory, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService, workout, date) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
@@ -119,6 +108,23 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     }).then(function(modal) {
       $scope.model.exercises_modal = modal;
     });
+
+    $scope.show_exercises = function() {
+      $scope.model.exercises_modal.show();
+    }
+
+    $scope.hide_exercises = function() {
+      $scope.model.exercises_modal.hide();
+    }
+
+    $scope.addExercise = function(exercise) {
+      $ionicHistory.nextViewOptions({
+          disableAnimate: true
+      });
+      $scope.model.addExercise($scope.workout, exercise);
+      $state.go('app.workout.exercise', {date: $scope.date, exercise_index: $scope.workout.exercises.length-1})
+      $scope.model.exercises_modal.hide();
+    }
 
     $scope.show_popup = function(set) {
       $scope.popup = {
