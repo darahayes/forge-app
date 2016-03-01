@@ -54,21 +54,3 @@ angular.module('Auth', ['ngStorage'])
 	}
 }])
 
-// .service('Auth_Interceptor', function(authService) {
-//     var service = this;
-
-//     service.request = function(config) {
-//         var user = authService.getUser();
-//         var token = authService.getToken();
-//         if (user && authService.isLoggedIn() && token) {
-//         	console.log('Is Logged in, adding authorization header')
-//           config.headers.authorization = 'Fuck';
-//         }
-//         return config;
-//     };
-
-//     service.responseError = function(response) {
-//         return response;
-//     };
-// })
-
