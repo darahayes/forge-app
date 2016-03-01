@@ -2,13 +2,13 @@
 <ion-header-bar class="bar-positive">
     <h1 class="title">Exercises</h1>
     <div class="buttons">
-      <button class="button button-icon ion-android-search" ng-click="showSearchBar()"></button>
-      <button class="button button-icon ion-android-close" ng-click="close_modal('exercises')"></button>
+      <button class="button button-icon ion-android-search" ng-click="model.showSearchBar()"></button>
+      <button class="button button-icon ion-android-close" ng-click="hide_exercises()"></button>
     </div>
   </ion-header-bar>
   <ion-content>
     <ion-list>
-      <ion-item collection-repeat="exercise in exercises" ng-click="addExercise(exercise)">
+      <ion-item collection-repeat="exercise in model.exercises" ng-click="addExercise(exercise)">
         {{exercise.name}}
       </ion-item>
     </ion-list>

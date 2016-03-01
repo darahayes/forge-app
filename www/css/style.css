@@ -51,8 +51,7 @@ p.weekday {
     margin-bottom: 5%;
 }
 .no-padding {
-    margin: 2% !important;
-    padding: 2% !important;
+    padding: 0% !important;
 }
 
 ion-popover-view.fit {
@@ -69,4 +68,8 @@ ion-popover-view.fit ion-content {
 
 .filter-bar-open.modal-open { 
     pointer-events: auto 
+}
+
+.selected {
+    background: rgba(0, 191, 255, 0.15);
 }
