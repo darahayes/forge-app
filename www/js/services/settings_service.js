@@ -1,6 +1,6 @@
-angular.module('UserSettings', ['ngStorage', 'Auth'])
+angular.module('settingsServiceModule', ['ngStorage', 'authServiceModule'])
 
-.factory('SettingsService', ['$localStorage', 'authService', function($localStorage, authService) {
+.factory('settingsService', function($localStorage, authService) {
 	var massUnits = ['kg', 'lb'];
 	var distanceUnits = ['km', 'mi'];
 
@@ -50,4 +50,4 @@ angular.module('UserSettings', ['ngStorage', 'Auth'])
 		getDistanceUnits: getDistanceUnits
 	}
 
-}])
+})

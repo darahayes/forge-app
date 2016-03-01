@@ -1,8 +1,8 @@
-angular.module('Exercises', ['ngStorage'])
+angular.module('exercisesServiceModule', ['ngStorage'])
 
-.factory('ExercisesService', ['$http', '$localStorage', 'Connection', function($http, $localStorage, Connection) {
+.factory('exercisesService', function($http, $localStorage, connectionService) {
 
-	var base_url = Connection.url;
+	var base_url = connectionService.url;
 	var localExercises = $localStorage.exercises;
 
 	function get_exercises(cb) {
@@ -31,4 +31,4 @@ angular.module('Exercises', ['ngStorage'])
 	}
 
 	return {get_exercises: get_exercises}
-}])
+})

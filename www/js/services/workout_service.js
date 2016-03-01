@@ -1,6 +1,6 @@
-angular.module('Workouts', ['ngStorage'])
+angular.module('workoutServiceModule', ['ngStorage'])
 
-.factory('WorkoutService', function($rootScope, $localStorage) {
+.factory('workoutService', function($rootScope, $localStorage) {
 
 	if (!$localStorage.workouts) {
 		console.log('Creating workouts object')

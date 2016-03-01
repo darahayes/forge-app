@@ -1,7 +1,6 @@
-angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic', 'Workouts', 'Exercises'])
+angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutServiceModule', 'exercisesServiceModule'])
 
-.controller('WorkoutCtrl', ['$scope', '$state', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService',
-  function($scope, $state, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService) {
+.controller('WorkoutCtrl', function($scope, workoutService, settingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicFilterBar, exercisesService) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
@@ -42,7 +41,7 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
 
     function addSet(exercise) {
-      var next = {unit: SettingsService.getDefaultMassUnit(), reps: 0}
+      var next = {unit: settingsService.getDefaultMassUnit(), reps: 0}
       if (exercise.sets.length > 0) {
         var previous = exercise.sets[exercise.sets.length-1];
         next.reps = (previous.reps) ? previous.reps : 0;
@@ -68,19 +67,8 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
 
     function save_workout(workout) {
-      WorkoutService.save_workout(workout);
+      workoutService.save_workout(workout);
     }
-
-    ExercisesService.get_exercises(function(err, exercises) {
-      if (err) {'Must handle the error'}
-      else if (exercises) {
-        console.log('Woo we got the exercises')
-        $scope.model.exercises = exercises;
-      }
-    });
-
-    $scope.search = '';
-    var searchBar;
 
     function showSearchBar() {
       searchBar = $ionicFilterBar.show({
@@ -92,11 +80,21 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
           }
         }
       });
-    };
-}])
+    }
 
-.controller('workout_overview_ctrl', ['$scope', '$state', '$ionicHistory', 'WorkoutService', 'SettingsService', '$ionicListDelegate', '$ionicSideMenuDelegate', '$ionicModal', '$ionicPopup', '$ionicFilterBar', 'ExercisesService', 'workout', 'date',
-  function($scope, $state, $ionicHistory, WorkoutService, SettingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicModal, $ionicPopup, $ionicFilterBar, ExercisesService, workout, date) {
+    $scope.search = '';
+    var searchBar;
+
+    exercisesService.get_exercises(function(err, exercises) {
+      if (err) {'Must handle the error'}
+      else if (exercises) {
+        console.log('Woo we got the exercises')
+        $scope.model.exercises = exercises;
+      }
+    });
+})
+
+.controller('WorkoutOverviewCtrl', function($scope, $state, $ionicHistory, $ionicSideMenuDelegate, $ionicModal, workout, date) {
     $scope.$on('$ionicView.enter', function() {
          // Code you want executed every time view is opened
          $ionicSideMenuDelegate.canDragContent(true);
@@ -178,10 +176,9 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     $scope.unselect = function(index) {
       selected.splice(selected.indexOf(index), 1)
     }
-}])
+})
 
-.controller('exercise_log_ctrl', ['$scope', 'WorkoutService', '$state', 'SettingsService', '$ionicModal', '$ionicPopup', 'ExercisesService', 'workout', 'exercise_index',
-  function($scope, WorkoutService, $state, SettingsService, $ionicModal, $ionicPopup, ExercisesService, workout, exercise_index) {
+.controller('ExerciseLogCtrl', function($scope, $state, $ionicPopup, workout, exercise_index) {
     $scope.exercise = workout.exercises[exercise_index];
     console.log('EXERCISE LOG CONTROL')
     console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
@@ -233,5 +230,4 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
         set.weight = (res) ? res : 0;
       })
     }
-  }
-])
+  })

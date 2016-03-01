@@ -1,6 +1,6 @@
-angular.module('Auth', ['ngStorage'])
+angular.module('authServiceModule', ['ngStorage'])
 
-.factory('authService', ['$http', '$localStorage', function($http, $localStorage) {
+.factory('authService', function($http, $localStorage) {
 	var logged_in = false
 	
 	var user = $localStorage.user;
@@ -52,5 +52,5 @@ angular.module('Auth', ['ngStorage'])
 		isLoggedIn: isLoggedIn,
 		getToken: getToken
 	}
-}])
+})
 

@@ -1,6 +1,6 @@
-angular.module('Calendar', ['Workouts'])
+angular.module('calendarServiceModule', ['workoutServiceModule'])
 
-.factory('$calendar', function(WorkoutService) {
+.factory('calendarService', function(workoutService) {
 
     var month_labels = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -49,7 +49,7 @@ angular.module('Calendar', ['Workouts'])
           if (week[i].year === this_year && week[i].date === today.getDate() && week[i].month === this_month) {
               week[i].today = true;
           }
-          if (WorkoutService.workout_exists(pad(week[i].month+1) + '-' + pad(week[i].date) + '-' + week[i].year)) {
+          if (workoutService.workout_exists(pad(week[i].month+1) + '-' + pad(week[i].date) + '-' + week[i].year)) {
             week[i].workout_day = true
           }
           day++;

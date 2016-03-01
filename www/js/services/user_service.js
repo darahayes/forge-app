@@ -1,8 +1,8 @@
-angular.module('Users', [])
+angular.module('userServiceModule', ['authServiceModule', 'connectionServiceModule'])
 
-.factory('userService', ['$http', 'authService', 'Connection', function($http, authService, Connection) {
+.factory('userService', function($http, authService, connectionService) {
   
-  var base_url = Connection.url;
+  var base_url = connectionService.url;
 
   function register(signupData, cb) {
     $http.post(base_url + '/api/register', signupData)
@@ -60,4 +60,4 @@ angular.module('Users', [])
     getUser: getUser,
     isLoggedIn: isLoggedIn
   }
-}])
+})
