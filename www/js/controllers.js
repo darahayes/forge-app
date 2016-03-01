@@ -150,9 +150,6 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
         items: $scope.exercises,
         update: function (filteredItems, filterText) {
           $scope.exercises = filteredItems;
-          if (filterText) {
-            console.log(filterText);
-          }
         }
       });
     };
@@ -200,7 +197,6 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
     $scope.month_label = $calendar.month_labels[$scope.month]
     $scope.weeks = $calendar.build_month($scope.month, $scope.year);
-    console.log(JSON.stringify($scope.weeks))
   }
 
   $scope.lastMonth = function() {
@@ -221,8 +217,11 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
   }
 
   $rootScope.$on('WorkoutSaved', function(event, date) {
-    console.log('Received Workout Saved Event in the Calendar Controller');
-    console.log('Data Received', date);
+    var dateArray = date.split('-')
+    var day = _.find($scope.weeks, {month: Number(dateArray[0]) - 1, date: Number(dateArray[1]), year: Number(dateArray[2])});
+    if (day) {
+      day.workout_day = true;
+    }
   });
 
 })

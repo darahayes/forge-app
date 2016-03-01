@@ -8,10 +8,6 @@ angular.module('Calendar', ['Workouts'])
     var this_month = today.getMonth();
     var this_year = today.getFullYear();
 
-    console.log('today', today.getDate());
-    console.log('this_month', this_month);
-    console.log('this_year', this_year);
-
     function build_month(month, year) {
       var days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
       //find the previous month 0...11
