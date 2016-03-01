@@ -180,6 +180,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
        $ionicSideMenuDelegate.canDragContent(false);
+       markWorkoutDays($scope.weeks);
   });
 
   
@@ -201,6 +202,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
     $scope.month_label = $calendar.month_labels[$scope.month]
     $scope.weeks = $calendar.build_month($scope.month, $scope.year);
+    markWorkoutDays($scope.weeks);
   }
 
   $scope.lastMonth = function() {
@@ -214,8 +216,23 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
     $scope.month_label = $calendar.month_labels[$scope.month]
     $scope.weeks = $calendar.build_month($scope.month, $scope.year);
+    markWorkoutDays($scope.weeks);
   }
 
+  function markWorkoutDays(weeks) {
+    weeks.forEach(function(week) {
+      week.forEach(function(day) {
+        var dateString = pad(day.month+1) + '-' + pad(day.date) + '-' + day.year;
+        if (WorkoutService.workout_exists(dateString)) {
+          day.workout_day = true
+        }
+      })
+    })
+  }
+
+  function pad(n) {
+      return (n < 10) ? ("0" + n) : n;
+  }
 })
 
 

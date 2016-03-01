@@ -19,9 +19,14 @@ angular.module('Workouts', ['ngStorage'])
 		return $localStorage.workouts[date] || {exercises: [], date: date};
 	}
 
+	function workout_exists(date) {
+		return $localStorage.workouts[date] ? true : false
+	}
+
 	return {
 		save_workout: save_workout,
-		get_workout: get_workout
+		get_workout: get_workout,
+		workout_exists: workout_exists
 	}
 
 }])
