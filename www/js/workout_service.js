@@ -1,6 +1,6 @@
 angular.module('Workouts', ['ngStorage'])
 
-.factory('WorkoutService', ['$localStorage', function($localStorage) {
+.factory('WorkoutService', function($rootScope, $localStorage) {
 
 	if (!$localStorage.workouts) {
 		console.log('Creating workouts object')
@@ -10,6 +10,7 @@ angular.module('Workouts', ['ngStorage'])
 	function save_workout(workout) {
 		console.log('Saving workout for ', workout.date)
 		$localStorage.workouts[workout.date] = workout
+		$rootScope.$emit('WorkoutSaved', workout.date);
 		console.log('Workout Saved')
 	}
 
@@ -29,4 +30,4 @@ angular.module('Workouts', ['ngStorage'])
 		workout_exists: workout_exists
 	}
 
-}])
+})

@@ -150,9 +150,6 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
         items: $scope.exercises,
         update: function (filteredItems, filterText) {
           $scope.exercises = filteredItems;
-          if (filterText) {
-            console.log(filterText);
-          }
         }
       });
     };
@@ -175,12 +172,11 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     ]
 }])
 
-.controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $calendar, WorkoutService) {
+.controller('CalendarCtrl', function($rootScope, $scope, $ionicHistory, $ionicSideMenuDelegate, $calendar, WorkoutService) {
   //by default start with the current month of the year
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
        $ionicSideMenuDelegate.canDragContent(false);
-       markWorkoutDays($scope.weeks);
   });
 
   
@@ -188,8 +184,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
   $scope.year = $calendar.year;
   $scope.month = $calendar.month;
   $scope.month_label = $calendar.month_labels[$scope.month]
-  $scope.weeks = $calendar.build_month(today.getMonth(), today.getFullYear());
-  var todayString = moment().format('MM-DD-YYYY');
+  $scope.weeks = $calendar.build_month($scope.month, $scope.year);
 
   $scope.nextMonth = function() {
     console.log("next month called")
@@ -202,7 +197,6 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
     $scope.month_label = $calendar.month_labels[$scope.month]
     $scope.weeks = $calendar.build_month($scope.month, $scope.year);
-    markWorkoutDays($scope.weeks);
   }
 
   $scope.lastMonth = function() {
@@ -216,23 +210,20 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
     $scope.month_label = $calendar.month_labels[$scope.month]
     $scope.weeks = $calendar.build_month($scope.month, $scope.year);
-    markWorkoutDays($scope.weeks);
   }
 
-  function markWorkoutDays(weeks) {
-    weeks.forEach(function(week) {
-      week.forEach(function(day) {
-        var dateString = pad(day.month+1) + '-' + pad(day.date) + '-' + day.year;
-        if (WorkoutService.workout_exists(dateString)) {
-          day.workout_day = true
-        }
-      })
-    })
+  $scope.range = function(num) {
+    return new Array(num)
   }
 
-  function pad(n) {
-      return (n < 10) ? ("0" + n) : n;
-  }
+  $rootScope.$on('WorkoutSaved', function(event, date) {
+    var dateArray = date.split('-')
+    var day = _.find($scope.weeks, {month: Number(dateArray[0]) - 1, date: Number(dateArray[1]), year: Number(dateArray[2])});
+    if (day) {
+      day.workout_day = true;
+    }
+  });
+
 })
 
 
