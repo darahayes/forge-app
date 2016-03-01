@@ -39,7 +39,6 @@ angular.module('Calendar', ['Workouts'])
       var day =  first_day.getDate() - first_day_index -1;
       do {
         var week = [];
-        weeks.push(week);
         for (var i = 0; i <=6; i++) {
           if (day < 0) {
             week[i] = {date: get_days_in_month(previous_month, year) + day +1, month: previous_month, year: previous_year, other_month: true}
@@ -54,9 +53,12 @@ angular.module('Calendar', ['Workouts'])
           if (week[i].year === this_year && week[i].date === today.getDate() && week[i].month === this_month) {
               week[i].today = true;
           }
+          if (WorkoutService.workout_exists(pad(week[i].month+1) + '-' + pad(week[i].date) + '-' + week[i].year)) {
+            week[i].workout_day = true
+          }
           day++;
         }
-
+        weeks = weeks.concat(week)
       } while (day <= get_days_in_month(month, year))
       return weeks;
 
@@ -66,6 +68,10 @@ angular.module('Calendar', ['Workouts'])
           return 29;
         }
         return days_in_month[month];
+      }
+
+      function pad(n) {
+        return (n < 10) ? ("0" + n) : n;
       }
     }
 
