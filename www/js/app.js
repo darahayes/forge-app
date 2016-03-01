@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controllers', 'controllers.workout', 'Workouts', 'Exercises', 'connection'])
+angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controllers', 'controllers.workout', 'Workouts', 'Exercises', 'connection', 'Calendar'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -81,8 +81,6 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     },
     resolve: {
       workout: function($stateParams, WorkoutService) {
-        console.log($stateParams.date)
-        console.log(JSON.stringify(WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'))))
         return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       date: function($stateParams) {
@@ -103,12 +101,9 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     resolve: {
       workout: function($stateParams, WorkoutService) {
         console.log($stateParams.date)
-        console.log(JSON.stringify(WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'))))
         return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       exercise_index: function($stateParams) {
-        console.log(JSON.stringify($stateParams))
-        console.log('\n\nEXERCISE INDEX RESOLVE FUNCTION CALLED\n\n\n\n\n\n\n\n\n\n')
         return $stateParams.exercise_index;
       }
     }

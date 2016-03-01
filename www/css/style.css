@@ -73,3 +73,30 @@ ion-popover-view.fit ion-content {
 .selected {
     background: rgba(0, 191, 255, 0.15);
 }
+
+
+span.calendar {
+    display: inherit;
+    height: 20px;
+    width: 20px;
+    line-height: 24px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    text-align: center;
+    color: black;
+}
+
+span.calendar.other-month {
+    opacity: 0.5;
+}
+
+span.calendar.workout-day {
+    color: rgb(56, 126, 245)
+}
+
+
+span.calendar.today {
+    background-color: rgba(56, 126, 245, 0.8);
+    color: white !important;
+}
+
