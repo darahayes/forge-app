@@ -42,7 +42,7 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     }
 
     function addSet(exercise) {
-      var next = {unit: SettingsService.getDefaultMassUnit()}
+      var next = {unit: SettingsService.getDefaultMassUnit(), reps: 0}
       if (exercise.sets.length > 0) {
         var previous = exercise.sets[exercise.sets.length-1];
         next.reps = (previous.reps) ? previous.reps : 0;
