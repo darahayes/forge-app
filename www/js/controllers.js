@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic', 'Calendar'])
+angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic', 'Calendar', 'Workouts'])
 
 .controller('AppCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, $ionicSideMenuDelegate, $timeout, userService) {
 
@@ -175,7 +175,7 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
     ]
 }])
 
-.controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $calendar) {
+.controller('CalendarCtrl', function($scope, $ionicHistory, $ionicSideMenuDelegate, $calendar, WorkoutService) {
   //by default start with the current month of the year
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
@@ -183,11 +183,12 @@ angular.module('starter.controllers', ['Users', 'Auth', 'UserSettings', 'ionic',
   });
 
   
-  var today = new Date();
-  $scope.year = today.getFullYear();
-  $scope.month = today.getMonth();
+  var today = $calendar.today;
+  $scope.year = $calendar.year;
+  $scope.month = $calendar.month;
   $scope.month_label = $calendar.month_labels[$scope.month]
   $scope.weeks = $calendar.build_month(today.getMonth(), today.getFullYear());
+  var todayString = moment().format('MM-DD-YYYY');
 
   $scope.nextMonth = function() {
     console.log("next month called")

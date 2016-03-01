@@ -81,8 +81,6 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     },
     resolve: {
       workout: function($stateParams, WorkoutService) {
-        console.log($stateParams.date)
-        console.log(JSON.stringify(WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'))))
         return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       date: function($stateParams) {
@@ -103,12 +101,9 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     resolve: {
       workout: function($stateParams, WorkoutService) {
         console.log($stateParams.date)
-        console.log(JSON.stringify(WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'))))
         return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       exercise_index: function($stateParams) {
-        console.log(JSON.stringify($stateParams))
-        console.log('\n\nEXERCISE INDEX RESOLVE FUNCTION CALLED\n\n\n\n\n\n\n\n\n\n')
         return $stateParams.exercise_index;
       }
     }
