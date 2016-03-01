@@ -47,12 +47,12 @@ angular.module('Calendar', ['Workouts'])
           else if (day <= get_days_in_month(month, year)) {
             if (day === 0) { day++; }
             week[i] = {year: year, date: day, month: month}
-            if (week[i].year === this_year && week[i].date === today.getDate() && week[i].month === this_month) {
-                week[i].today = true;
-            }
           }
           else {
             week[i] = {date: (day - get_days_in_month(month, year)), month: next_month, year: next_year, other_month: true}
+          }
+          if (week[i].year === this_year && week[i].date === today.getDate() && week[i].month === this_month) {
+              week[i].today = true;
           }
           day++;
         }
