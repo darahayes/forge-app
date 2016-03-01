@@ -9,8 +9,8 @@
   </ion-footer-bar>
   <ion-content>
 
-        <div class="list card" ng-repeat="exercise in workout.exercises track by $index" ng-class="{'selected': isSelected(exercise.name)}">
-          <div ui-sref="app.workout.exercise({exercise_index :$index})" class="item item-divider" ng-class="{'selected': isSelected((exercise.name))}">
+        <div on-hold="select($index)" ng-click=exerciseTapped($index) class="list card" ng-repeat="exercise in workout.exercises track by $index" ng-class="{'selected': isSelected($index)}">
+          <div class="item item-divider" ng-class="{'selected': isSelected($index)}">
             <h2>{{exercise.name}}</h2>
           </div>
           <div class="item no-padding">

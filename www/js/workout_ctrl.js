@@ -104,6 +104,7 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
     $scope.workout = workout;
     $scope.date = date;
     $scope.model = $scope.model;
+    var selected = [];
 
     console.log('Child Workout controller initiated');
     console.log('\n\nCHILD Workout', JSON.stringify($scope.model.workout));
@@ -133,9 +134,30 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       $scope.model.exercises_modal.hide();
     }
 
-    $scope.isSelected = function($index) {
-      console.log('Index', $index)
-      return true;
+    $scope.isSelected = function(index) {
+      return selected.includes(index);
+    }
+
+    $scope.select = function(index) {
+      if (!$scope.isSelected(index)) {
+        selected.push(index);
+      }
+    }
+
+    $scope.exerciseTapped = function(index) {
+      if (selected.length === 0) {
+        $state.go('app.workout.exercise', {date: $scope.date, exercise_index: index})
+      }
+      else if ($scope.isSelected(index)) {
+        $scope.unselect(index);
+      }
+      else {
+        $scope.select(index);
+      }
+    }
+
+    $scope.unselect = function(index) {
+      selected.splice(selected.indexOf(index), 1)
     }
 }])
 
