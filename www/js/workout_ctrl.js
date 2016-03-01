@@ -134,6 +134,19 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       $scope.model.exercises_modal.hide();
     }
 
+    $scope.action = function(workout) {
+      if (!$scope.itemsSelected()) {
+        $scope.model.save_workout(workout)
+      }
+      else {
+        $scope.deleteSelected()
+      }
+    }
+
+    $scope.itemsSelected = function() {
+      return selected.length > 0;
+    }
+
     $scope.isSelected = function(index) {
       return selected.includes(index);
     }
@@ -154,6 +167,12 @@ angular.module('controllers.workout', ['Users', 'Auth', 'UserSettings', 'ionic',
       else {
         $scope.select(index);
       }
+    }
+
+    $scope.deleteSelected = function() {
+      $scope.workout.exercises = $scope.workout.exercises.filter(function(ex, index) { return !$scope.isSelected(index)});
+      selected = [];
+      $scope.model.save_workout($scope.workout)
     }
 
     $scope.unselect = function(index) {

@@ -1,6 +1,6 @@
 <ion-view view-title="Workout">
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-android-done-all" ng-click="model.save_workout(workout)"></button>
+    <button class="button button-icon button-clear" ng-class="(itemsSelected()) ? 'ion-android-delete' : 'ion-android-done-all'" ng-click="action(workout)"></button>
   </ion-nav-buttons>
   <ion-footer-bar>
     <button class="bar bar-footer bar-balanced" ng-click="show_exercises()">
