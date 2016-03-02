@@ -120,5 +120,4 @@ angular.module('menuCtrlModule', ['userServiceModule', 'ionic'])
        });
     })
   };
-
 })
