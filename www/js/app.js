@@ -1,10 +1,22 @@
-// Ionic Starter App
+var appModules = [
+  'ionic',
+  'jett.ionic.filter.bar',
+  'menuCtrlModule',
+  'calendarCtrlModule',
+  'exercisesCtrlModule',
+  'settingsCtrlModule',
+  'workoutCtrlModule',
+  'authServiceModule',
+  'calendarServiceModule',
+  'connectionServiceModule',
+  'exercisesServiceModule',
+  'settingsServiceModule',
+  'userServiceModule',
+  'workoutServiceModule',
+  'ngStorage'
+]
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controllers', 'controllers.workout', 'Workouts', 'Exercises', 'connection', 'Calendar'])
+angular.module('starter', appModules)
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,23 +34,14 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
   });
 })
 
-.config(['$httpProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', function($httpProvider, $stateProvider, $urlRouterProvider) {
+.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
   $stateProvider
 
   .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
-  })
-
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
+    controller: 'MenuCtrl'
   })
 
   .state('app.calendar', {
@@ -76,12 +79,12 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     views : {
       'workoutView' : {
         templateUrl: 'templates/workout_overview.html',
-        controller: 'workout_overview_ctrl'
+        controller: 'WorkoutOverviewCtrl'
       }
     },
     resolve: {
-      workout: function($stateParams, WorkoutService) {
-        return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
+      workout: function($stateParams, workoutService) {
+        return workoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       date: function($stateParams) {
         return $stateParams.date;
@@ -95,13 +98,13 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
     views: {
       workoutView: {
         templateUrl: 'templates/exercise_log.html',
-        controller: 'exercise_log_ctrl'
+        controller: 'ExerciseLogCtrl'
       }
     },
     resolve: {
-      workout: function($stateParams, WorkoutService) {
+      workout: function($stateParams, workoutService) {
         console.log($stateParams.date)
-        return WorkoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
+        return workoutService.get_workout(moment($stateParams.date, 'MM-DD-YYYY').format('MM-DD-YYYY'));
       },
       exercise_index: function($stateParams) {
         return $stateParams.exercise_index;
@@ -123,7 +126,7 @@ angular.module('starter', ['ionic', 'jett.ionic.filter.bar', 'starter.controller
   $httpProvider.defaults.withCredentials = true;
   $httpProvider.defaults.useXDomain = true;
   // $httpProvider.interceptors.push('Auth_Interceptor');
-}])
+})
 
 .constant('$ionicLoadingConfig', {
   template: '<ion-spinner icon="android"></ion-spinner>'
