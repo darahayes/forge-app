@@ -6,7 +6,7 @@
             Preferred Weight Unit
           </div>
           <select ng-model="defaultMass" ng-change="setDefaultMassUnit(defaultMass)">
-              <option collection-repeat="unit in massUnits">{{unit}}</option>
+              <option ng-repeat="unit in massUnits">{{unit}}</option>
           </select>
         </ion-item>
         <ion-item class="item-input item-select">
@@ -14,7 +14,7 @@
             Preferred Distance Unit
           </div>
           <select ng-model="defaultDistance" ng-change="setDefaultDistanceUnit(defaultDistance)">
-              <option collection-repeat="unit in distanceUnits">{{unit}}</option>
+              <option ng-repeat="unit in distanceUnits">{{unit}}</option>
           </select>
         </ion-item>
         <div class="item item-divider"></div>
