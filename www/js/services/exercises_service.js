@@ -12,12 +12,25 @@ angular.module('exercisesServiceModule', ['ngStorage'])
       cb(null, localExercises)
     }
     else {
-      console.log('exercises retrieved from api')
-      fetch_exercises(cb);
+      console.log('exercises retrieved from file')
+      get_local_exercises(cb);
     }
   }
 
-  function fetch_exercises(cb) {
+  function get_local_exercises(cb) {
+    $http.get('json/exercises.json')
+    .then(function(response) {
+      console.log('good');
+      $localStorage.exercises = response.data;
+      cb(null, response.data)
+    }, function(err) {
+      console.log('bad')
+      console.log(JSON.stringify(err))
+      cb(err)
+    });
+  }
+
+  function get_remote_exercises(cb) {
     $http.get(base_url + '/api/exercises')
     .then(function(response) {
       console.log('good')
