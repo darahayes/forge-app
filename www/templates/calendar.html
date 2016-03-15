@@ -17,24 +17,28 @@
         <div class="col text-center"><p class="weekday">Sun</p></div>
       </div>
       </ion-item>
-      <ion-item ng-repeat="week in range(weeks.length/7) track by $index">
-          <div class="row row-no-padding">
-            <div 
-              class="col text-center" 
-              ng-init="i=$parent.$index*7 + $index" 
-              ng-repeat="day in range(7) track by $index">
-              <a
-                class="button button-small button-clear"
-                ui-sref="app.workout.overview({date: weeks[i].month+1 + '-' + weeks[i].date + '-' + weeks[i].year})">
-                <span 
-                  class="calendar"
-                  ng-class="{'today': weeks[i].today, 'other-month': weeks[i].other_month, 'workout-day': weeks[i].workout_day}">
-                  {{weeks[i].date}}
-                </span>
-              </a>
-            </div>
-          </div>
-      </ion-item>
+      <ion-slide-box show-pager="false">
+        <ion-slide ng-repeat="slide in slides">
+          <ion-item ng-repeat="week in range(weeks.length/7) track by $index">
+              <div class="row row-no-padding">
+                <div
+                  class="col text-center"
+                  ng-init="i=$parent.$index*7 + $index"
+                  ng-repeat="day in range(7) track by $index">
+                  <a
+                    class="button button-small button-clear"
+                    ui-sref="app.workout.overview({date: weeks[i].month+1 + '-' + weeks[i].date + '-' + weeks[i].year})">
+                    <span
+                      class="calendar"
+                      ng-class="{'today': weeks[i].today, 'other-month': weeks[i].other_month, 'workout-day': weeks[i].workout_day}">
+                      {{weeks[i].date}}
+                    </span>
+                  </a>
+                </div>
+              </div>
+          </ion-item>
+        </ion-slide>
+      </ion-slide-box>
     </ion-list>
   </ion-content>
 </ion-view>

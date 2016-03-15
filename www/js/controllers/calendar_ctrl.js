@@ -12,7 +12,7 @@ angular.module('calendarCtrlModule', ['ionic', 'calendarServiceModule'])
   $scope.month = calendarService.month;
   $scope.month_label = calendarService.month_labels[$scope.month]
   $scope.weeks = calendarService.build_month($scope.month, $scope.year);
-
+  $scope.slides = [$scope.weeks];
   $scope.nextMonth = function() {
     console.log("next month called")
     if ($scope.month < 11) {
