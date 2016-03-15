@@ -9,11 +9,11 @@ angular.module('exercisesServiceModule', ['ngStorage'])
     console.log('get_exercises called');
     if (localExercises) {
       console.log('exercises retrieved locally')
-      cb(null, localExercises)
+      get_local_exercises(cb);
     }
     else {
-      console.log('exercises retrieved from file')
-      get_local_exercises(cb);
+      console.log('exercises retrieved from api')
+      get_remote_exercises(cb);
     }
   }
 
