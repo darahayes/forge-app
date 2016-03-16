@@ -1,5 +1,5 @@
 #Progress
-A mobile workout logging application built with [Ionic.][ionic] Talks back to the [progress-api][progress-api]
+A mobile workout logging application built with [Ionic.][ionic] Talks back to the [forge-api][forge-api]
 
 This is a work in progress and it's just getting started. 
 It's my first experience ever using Angular or Ionic.
@@ -15,7 +15,7 @@ npm install -g cordova ionic
 Then clone this project.
 
 ```bash
-git clone https://darragh-hayes/progress-app
+git clone https://darragh-hayes/forge-app
 ```
 
 ###Install dependencies
@@ -60,4 +60,5 @@ This software is free to copy and redistribute under the [GNU General Public Lic
 
 
 [ionic]: http://ionicframework.com/
-[progress-api]: https://github.com/darragh-hayes/progress-api
+[forge-api]: https://github.com/darragh-hayes/forge
+-api
