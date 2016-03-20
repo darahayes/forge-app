@@ -24,9 +24,9 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
       console.log(JSON.stringify(exercise))
       exercise.sets = [];
       workout.exercises.push(exercise);
-      if (searchBar) { 
+      if (searchBar) {
         console.log('Added exercise while search bar was open')
-        searchBar(); 
+        searchBar();
       }
     }
     save_workout(workout);
@@ -94,11 +94,11 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
 })
 
 .controller('WorkoutOverviewCtrl', function($scope, $state, $ionicHistory, $ionicSideMenuDelegate, $ionicModal, workout, date) {
-  
+
   $scope.$on('$ionicView.enter', function() {
     $ionicSideMenuDelegate.canDragContent(true);
-  });   
-  
+  });
+
   $scope.workout = workout;
   $scope.date = date;
   $scope.model = $scope.model;
@@ -196,7 +196,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
 
   $scope.show_popup = function(set) {
     $scope.popup = {
-      weight: null,
+      weight: set.weight || null,
       increment: function() {
         this.weight = this.weight + 2.5;
       },
