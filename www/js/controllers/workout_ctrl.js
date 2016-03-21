@@ -44,7 +44,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     if (exercise.sets.length > 0) {
       var previous = exercise.sets[exercise.sets.length-1];
       next.reps = (previous.reps) ? previous.reps : 0;
-      next.weight = (previous.weight) ? previous.weight : null;
+      next.weight = (previous.weight) ? previous.weight : 0;
     }
     exercise.sets.push(next);
   }
@@ -194,11 +194,30 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     $state.go('app.workout.overview', {date: workout.date});
   }
 
+  $scope.updateWeightInfo = function(popup) {
+    popup.info = getWeightInfo(popup.weight, popup.unit);
+  }
+
+  function getWeightInfo(weight, unit) {
+    var info = null
+    if ($scope.exercise.equipment === 'Barbell') {
+      var barbellWeight = (unit === 'kg') ? 20 : 45;
+      if (weight > barbellWeight) {
+        var sideWeight = (weight - barbellWeight)/2;
+        var info = sideWeight + unit + ' each side + ' + barbellWeight + unit + ' barbell';
+      }
+    }
+    return info;
+  }
+
   $scope.show_popup = function(set) {
     $scope.popup = {
-      weight: set.weight || null,
+      unit: set.unit,
+      weight: set.weight || 0,
+      info: getWeightInfo(set.weight, set.unit),
       increment: function() {
         this.weight = this.weight + 2.5;
+        $scope.updateWeightInfo(this);
       },
       decrement: function() {
         if (this.weight >= 0 && this.weight <= 2.5) {
@@ -207,6 +226,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
         else if (this.weight > 2.5) {
           this.weight = this.weight - 2.5;
         }
+        $scope.updateWeightInfo(this);
       }
     }
     console.log("popup function");
