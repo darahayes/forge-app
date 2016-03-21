@@ -235,7 +235,9 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
       title: 'Weight',
       scope: $scope,
       buttons: [
-        {text: 'Cancel'},
+        {
+          text: 'Cancel'
+        },
         {
           text: 'Save',
           type: 'button-positive',
@@ -247,7 +249,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     })
 
     weight_popup.then(function(res) {
-      set.weight = (res) ? res : 0;
+      set.weight = res || set.weight || 0;
     })
   }
 })
