@@ -3,7 +3,7 @@ angular.module('exercisesServiceModule', ['ngStorage', 'exercisesDBModule'])
 .factory('exercisesService', function($http, $localStorage, connectionService, exercisesDB) {
 
   var base_url = connectionService.url;
-  var localExercises = exercisesDB;
+  var localExercises = exercisesDB.db;
 
   function get_exercises(cb) {
     console.log('get_exercises called');
