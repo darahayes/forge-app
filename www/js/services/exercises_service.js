@@ -1,7 +1,6 @@
-angular.module('exercisesServiceModule', ['ngStorage', 'ngCordova', 'exercisesDBModule'])
+angular.module('exercisesServiceModule', ['ngStorage', 'exercisesDBModule'])
 
-.factory('exercisesService', function($http, $localStorage,
-$cordovaFile, connectionService, exercisesDB) {
+.factory('exercisesService', function($http, $localStorage, connectionService, exercisesDB) {
 
   var base_url = connectionService.url;
   var localExercises = exercisesDB;

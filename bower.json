@@ -7,6 +7,7 @@
   "dependencies": {
     "ngstorage": "~0.3.10",
     "lodash": "~4.3.0",
-    "ionic-filter-bar": "~1.1.1"
+    "ionic-filter-bar": "~1.1.1",
+    "moment": "^2.12.0"
   }
 }
