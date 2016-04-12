@@ -1,6 +1,7 @@
+angular.module('exercisesDBModule', [])
 
-
-[
+.factory('exercisesDB', function() {
+  return [
   {
     "_id": "56e3421a154b1f085b160501",
     "name": "3\/4 Sit-Up",
@@ -6997,3 +6998,5 @@
     "created_by": null
   }
 ]
+
+})

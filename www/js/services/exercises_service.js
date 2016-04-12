@@ -1,33 +1,19 @@
-angular.module('exercisesServiceModule', ['ngStorage'])
+angular.module('exercisesServiceModule', ['ngStorage', 'ngCordova', 'exercisesDBModule'])
 
-.factory('exercisesService', function($http, $localStorage, connectionService) {
+.factory('exercisesService', function($http, $localStorage,
+$cordovaFile, connectionService, exercisesDB) {
 
   var base_url = connectionService.url;
-  var localExercises = $localStorage.exercises;
+  var localExercises = exercisesDB;
 
   function get_exercises(cb) {
     console.log('get_exercises called');
-    if (localExercises) {
-      console.log('exercises retrieved locally')
-      get_local_exercises(cb);
-    }
-    else {
-      console.log('exercises retrieved from api')
-      get_remote_exercises(cb);
-    }
+    get_local_exercises(cb);
   }
 
   function get_local_exercises(cb) {
-    $http.get('json/exercises.json')
-    .then(function(response) {
-      console.log('good');
-      $localStorage.exercises = response.data;
-      cb(null, response.data)
-    }, function(err) {
-      console.log('bad')
-      console.log(JSON.stringify(err))
-      cb(err)
-    });
+    console.log('local exercises')
+    cb(null, localExercises);
   }
 
   function get_remote_exercises(cb) {
