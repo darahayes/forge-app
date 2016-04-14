@@ -20,7 +20,9 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
 
   function addExercise(workout, exercise) {
     //if not already added
-    if (!_.some(workout.exercises, {name: exercise.name})) {
+    var index = _.findIndex(workout.exercises, {name: exercise.name})
+    console.log('INDEX', index)
+    if (index < 0) {
       console.log(JSON.stringify(exercise))
       exercise.sets = [];
       workout.exercises.push(exercise);
@@ -31,6 +33,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     }
     save_workout(workout);
     console.log("workout: ", JSON.stringify(workout));
+    return index > 0 ? index : workout.exercises.length-1
   }
 
   function removeExercise(workout, index) {
@@ -70,13 +73,19 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   }
 
   function showSearchBar() {
+    if ($scope.model.list[0].type === 'category') {
+      $scope.model.list = $scope.model.exercises
+    }
     searchBar = $ionicFilterBar.show({
-      items: $scope.model.exercises,
+      items: $scope.model.list,
       update: function (filteredItems, filterText) {
-        $scope.model.exercises = filteredItems;
+        $scope.model.list = filteredItems;
         if (filterText) {
           console.log(filterText);
         }
+      },
+      cancel: function() {
+        $scope.model.list = $scope.model.xCategories
       }
     });
   }
@@ -84,16 +93,12 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   $scope.search = '';
   var searchBar;
 
-  exercisesService.get_exercises(function(err, exercises) {
-    if (err) {'Must handle the error'}
-    else if (exercises) {
-      console.log('Woo we got the exercises')
-      $scope.model.exercises = exercises;
-    }
-  });
+  $scope.model.xCategories = exercisesService.categories;
+  $scope.model.exercises = exercisesService.exercises;
+  $scope.model.list = $scope.model.xCategories;
 })
 
-.controller('WorkoutOverviewCtrl', function($scope, $state, $ionicHistory, $ionicSideMenuDelegate, $ionicModal, workout, date) {
+.controller('WorkoutOverviewCtrl', function($scope, $state, $ionicHistory, $ionicSideMenuDelegate, $ionicModal, workout, date, exercisesService) {
 
   $scope.$on('$ionicView.enter', function() {
     $ionicSideMenuDelegate.canDragContent(true);
@@ -115,6 +120,13 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     $scope.model.exercises_modal = modal;
   });
 
+  $scope.$on('modal.hidden', function() {
+    console.log('Modal was hidden')
+    setTimeout(function() {
+      $scope.model.list = $scope.model.xCategories;
+    }, 300)
+  });
+
   $scope.show_exercises = function() {
     $scope.model.exercises_modal.show();
   }
@@ -127,9 +139,20 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     $ionicHistory.nextViewOptions({
         disableAnimate: true
     });
-    $scope.model.addExercise($scope.workout, exercise);
-    $state.go('app.workout.exercise', {date: $scope.date, exercise_index: $scope.workout.exercises.length-1})
+    var index = $scope.model.addExercise($scope.workout, exercise);
+    $state.go('app.workout.exercise', {date: $scope.date, exercise_index: index})
     $scope.model.exercises_modal.hide();
+  }
+
+  $scope.selected = function(item) {
+    console.log('SELECTED', JSON.stringify(item))
+    if (item.type === 'category') {
+      $scope.model.list = exercisesService.getCategory(item.name)
+    }
+    else {
+      console.log('add exercise')
+      $scope.addExercise(item)
+    }
   }
 
   $scope.action = function(workout) {

@@ -45,23 +45,50 @@ angular.module('starter', appModules)
   })
 
   .state('app.calendar', {
-      url: '/calendar',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/calendar.html',
-          controller: 'CalendarCtrl'
-        }
+    url: '/calendar',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/calendar.html',
+        controller: 'CalendarCtrl'
       }
-    })
-    .state('app.exercises', {
-      url: '/exercises',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/exercises.html',
-          controller: 'ExercisesCtrl'
-        }
+    }
+  })
+
+  .state('app.exercises', {
+    abstract: true,
+    url: '/exercises',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/exercises.html',
+        controller: 'ExercisesCtrl'
       }
-    })
+    }
+  })
+
+  .state('app.exercises.categories', {
+    url: '/categories',
+    views: {
+      'listView': {
+        templateUrl: 'templates/exercise_list.html',
+        controller: 'ExercisesCtrl'
+      }
+    }
+  })
+
+  .state('app.exercises.category', {
+    url: '/:category',
+    views: {
+      'listView': {
+        templateUrl: 'templates/exercise_list.html',
+        controller: 'ExercisesListCtrl'
+      }
+    },
+    resolve: {
+      category: function($stateParams) {
+        return $stateParams.category;
+      }
+    }
+  })
 
   .state('app.workout', {
     abstract: true,
@@ -80,6 +107,10 @@ angular.module('starter', appModules)
       'workoutView' : {
         templateUrl: 'templates/workout_overview.html',
         controller: 'WorkoutOverviewCtrl'
+      },
+      'exercisesModalView' : {
+        templateUrl: 'templates/exercise_list.html',
+        controller: 'ExerciseCtrl'
       }
     },
     resolve: {

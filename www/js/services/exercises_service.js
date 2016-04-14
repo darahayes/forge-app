@@ -4,16 +4,14 @@ angular.module('exercisesServiceModule', ['ngStorage', 'exercisesDBModule'])
 
   var base_url = connectionService.url;
   var localExercises = exercisesDB.db;
-
-  function get_exercises(cb) {
-    console.log('get_exercises called');
-    get_local_exercises(cb);
-  }
-
-  function get_local_exercises(cb) {
-    console.log('local exercises')
-    cb(null, localExercises);
-  }
+  var categories = [
+    {name: 'Arms', type: 'category'},
+    {name: 'Legs', type: 'category'},
+    {name: 'Shoulders', type: 'category'},
+    {name: 'Back', type: 'category'},
+    {name: 'Abdominals', type: 'category'},
+    {name: 'Chest', type: 'category'}
+  ]
 
   function get_remote_exercises(cb) {
     $http.get(base_url + '/api/exercises')
@@ -28,5 +26,15 @@ angular.module('exercisesServiceModule', ['ngStorage', 'exercisesDBModule'])
     });
   }
 
-  return {get_exercises: get_exercises}
+  function getCategory(category) {
+    return localExercises.filter(function(x) {
+      return x.main_target === category
+    })
+  }
+
+  return {
+    exercises: localExercises,
+    categories: categories,
+    getCategory: getCategory
+  }
 })

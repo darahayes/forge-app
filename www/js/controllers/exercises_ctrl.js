@@ -1,25 +1,32 @@
 angular.module('exercisesCtrlModule', ['ionic', 'exercisesServiceModule'])
 
-.controller('ExercisesCtrl', function($scope, $ionicSideMenuDelegate, $ionicFilterBar, $ionicPopover, exercisesService) {
+.controller('ExercisesCtrl', function($state, $scope, $ionicSideMenuDelegate, $ionicFilterBar, $ionicPopover, exercisesService) {
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
        $ionicSideMenuDelegate.canDragContent(true);
   });
-  exercisesService.get_exercises(function(err, exercises) {
-    if (err) {'Must handle the error'}
-    else if (exercises) {
-      console.log('Woo we got the exercises in the Exercises View')
-      $scope.exercises = exercises;
-    }
-  });
-
+  exercises = exercisesService.exercises;
+  categories = exercisesService.categories;
+  $scope.list = categories
   var searchBar;
 
-  $scope.showSearchBar = function() {
+  $scope.selected = function(selected) {
+    console.log(JSON.stringify($state.current))
+    if (selected.type === 'category' && $state.current.url !== '/overview') {
+      $state.go('app.exercises.category', {category: selected.name})
+    }
+  }
+
+  $scope.showSearchBar = function(filterAllExercises) {
+    console.log('SEARCH BAR')
+    console.log($scope.list);
     searchBar = $ionicFilterBar.show({
-      items: $scope.exercises,
+      items: $scope.list,
       update: function (filteredItems, filterText) {
-        $scope.exercises = filteredItems;
+        $scope.list = filteredItems;
+      },
+      cancel: function() {
+        $scope.list = categories
       }
     });
   };
@@ -40,4 +47,20 @@ angular.module('exercisesCtrlModule', ['ionic', 'exercisesServiceModule'])
       }
     }
   ]
+})
+
+.controller('ExercisesListCtrl', function($scope, exercisesService, $ionicFilterBar, category) {
+
+  $scope.list = exercisesService.getCategory(category)
+  var searchBar;
+
+  $scope.showSearchBar = function() {
+    searchBar = $ionicFilterBar.show({
+      items: $scope.list,
+      update: function (filteredItems, filterText) {
+        $scope.list = filteredItems;
+      }
+    });
+  };
+
 })

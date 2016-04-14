@@ -1,0 +1,15 @@
+<ion-view view-title="Exercises">
+  <ion-nav-buttons side="right">
+        <button class="button button-icon ion-android-search" ng-click="showSearchBar(true)">
+        </button>
+        <button class="button button-icon ion-android-more-vertical" ng-click="popover.show($event)">
+        </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-list>
+      <ion-item ng-click="selected(item)" collection-repeat="item in list">
+        {{item.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

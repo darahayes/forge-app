@@ -8,8 +8,8 @@
   </ion-header-bar>
   <ion-content>
     <ion-list>
-      <ion-item collection-repeat="exercise in model.exercises" ng-click="addExercise(exercise)">
-        {{exercise.name}}
+      <ion-item collection-repeat="item in model.list" ng-click="selected(item)">
+        {{item.name}}
       </ion-item>
     </ion-list>
   </ion-content>
