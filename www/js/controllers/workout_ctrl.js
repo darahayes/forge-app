@@ -1,4 +1,4 @@
-angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutServiceModule', 'exercisesServiceModule'])
+angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutServiceModule', 'exercisesServiceModule', 'PRServiceModule'])
 
 .controller('WorkoutCtrl', function($scope, workoutService, settingsService, $ionicListDelegate, $ionicSideMenuDelegate, $ionicFilterBar, exercisesService) {
   $scope.$on('$ionicView.enter', function() {
@@ -8,8 +8,6 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   $scope.model = {
     addExercise: addExercise,
     removeExercise: removeExercise,
-    addSet: addSet,
-    remove_set: remove_set,
     increment: increment,
     decrement: decrement,
     save_workout: save_workout,
@@ -40,22 +38,6 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     workout.exercises.splice(index, 1);
     save_workout(workout);
     console.log('remoive exercise called')
-  }
-
-  function addSet(exercise) {
-    var next = {unit: settingsService.getDefaultMassUnit(), reps: 0}
-    if (exercise.sets.length > 0) {
-      var previous = exercise.sets[exercise.sets.length-1];
-      next.reps = (previous.reps) ? previous.reps : 0;
-      next.weight = (previous.weight) ? previous.weight : 0;
-    }
-    exercise.sets.push(next);
-  }
-
-  function remove_set(index, exercise) {
-    console.log('remove set called', index, exercise)
-    $ionicListDelegate.closeOptionButtons();
-    exercise.sets.splice(index, 1)
   }
 
   function increment(set) {
@@ -201,8 +183,13 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   }
 })
 
-.controller('ExerciseLogCtrl', function($scope, $state, $ionicPopup, workout, exercise_index) {
+.controller('ExerciseLogCtrl', function($scope, $state, $ionicPopup, $ionicListDelegate, settingsService, workout, exercise_index, prService, $ionicTabsDelegate) {
+
   $scope.exercise = workout.exercises[exercise_index];
+  $scope.history = prService.get_history($scope.exercise.name);
+  $scope.pbKeys = Object.keys($scope.history.pbs);
+
+  console.log('PBKEYS', $scope.pbKeys)
   console.log('EXERCISE LOG CONTROL')
   console.log('Workout from exercise_log_ctrl', JSON.stringify(workout))
   console.log('exercise_index', exercise_index)
@@ -274,5 +261,34 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     weight_popup.then(function(res) {
       set.weight = res || set.weight || 0;
     })
+  }
+
+  var month_labels = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  $scope.getHumanDateString = function(date) {
+    if (date === workout.date) {
+      return 'Today';
+    }
+    date = date.split('-');
+    return date[1] + ' ' + month_labels[date[0]-1] + ' ' + date[2]
+  }
+
+  $scope.addSet = function(exercise) {
+    var next = {unit: settingsService.getDefaultMassUnit(), reps: 0, weight: 0}
+    if (exercise.sets.length > 0) {
+      var previous = exercise.sets[exercise.sets.length-1];
+      next.reps = (previous.reps) ? previous.reps : 0;
+      next.weight = (previous.weight) ? previous.weight : 0;
+    }
+    exercise.sets.push(next);
+    if ($ionicTabsDelegate.selectedIndex() > 0) {
+      $ionicTabsDelegate.select(0);
+    }
+  }
+
+  $scope.removeSet = function(index, exercise) {
+    console.log('remove set called', index, exercise)
+    $ionicListDelegate.closeOptionButtons();
+    exercise.sets.splice(index, 1)
   }
 })

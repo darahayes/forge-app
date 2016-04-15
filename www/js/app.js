@@ -13,6 +13,7 @@ var appModules = [
   'settingsServiceModule',
   'userServiceModule',
   'workoutServiceModule',
+  'PRServiceModule',
   'ngStorage'
 ]
 

@@ -19,16 +19,16 @@ angular.module('calendarServiceModule', ['workoutServiceModule'])
     var next_year = (next_month === 0) ? year + 1: year;
 
 
-    //get the first date of the month 
+    //get the first date of the month
     var first_day = new Date(year, month, 1);
-    
+
     // finds the weekday the first day falls on
     //0...6 have to account for 0 = sunday
     var offset = first_day.getDay() -1;
     var first_day_index = (offset > -1) ? offset : 6;
 
     var weeks = []
-    
+
     //calculates what number the very first day
     //in the calendar we get a negative number
     //if last month

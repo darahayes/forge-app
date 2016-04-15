@@ -1,40 +1,94 @@
-<ion-view view-title="Log Exercise">
+<ion-view view-title="{{exercise.name}}">
 <ion-nav-buttons side="left">
       <button class="button button-icon-small button-clear ion-chevron-left" ng-click="goBack()">
       </button>
 </ion-nav-buttons>
 <ion-footer-bar>
-  <button class="bar bar-footer bar-balanced" ng-click="model.addSet(exercise)">
+  <button class="bar bar-footer bar-balanced" ng-click="addSet(exercise)">
     <p class="title">Add Set<p>
   </button>
 </ion-footer-bar>
-  <ion-content>
-    <div class="item item-divider">
-      <h2>{{exercise.name}}</h2>
-    </div>
 
-    <ion-list>
-      <ion-item ng-repeat="set in exercise.sets track by $index">
-        <div class="row item-text-center">
-            <div class="col">
-              <button class="button button-clear button-dark button-small">{{$index + 1}}.</button>
-            </div>
-            <div class="col col-offset-10">
-              <button class="button button-clear button-dark button-small" ng-click="show_popup(set)">{{set.weight}}{{ set.unit || massUnit}}</button>
-            </div>
-            <div class="col col-offset-20">
-              <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="model.decrement(set)"></button>
-            </div>
-            <div class="col-20 item-input text-center">
-                <input text-align="center" type="number" placeholder="reps" ng-model="set.reps" ng-init="reps"></input>
-            </div>
-            <div class="col">
-              <button class="button button-clear button-dark button-small icon ion-plus-round rep-button" ng-click="model.increment(set)"></button>
-            </div>
-          </div>
-          <ion-option-button ng-click="model.remove_set($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
-      </ion-item>
-    </ion-list>
+  <ion-tabs class="tabs-stable tabs-top" has-header="true">
+    <ion-tab title="Log">
+      <ion-view>
+        <ion-content>
 
-  </ion-content>
-</ion-view>
+          <ion-list>
+            <ion-item ng-repeat="set in exercise.sets track by $index">
+              <div class="row item-text-center">
+                  <div class="col">
+                    <button class="button button-clear button-dark button-small">{{$index + 1}}.</button>
+                  </div>
+                  <div class="col col-offset-10">
+                    <button class="button button-clear button-dark button-small" ng-click="show_popup(set)">{{set.weight}}{{ set.unit || massUnit}}</button>
+                  </div>
+                  <div class="col col-offset-20">
+                    <button class="button button-clear button-dark button-small icon ion-minus-round" ng-click="model.decrement(set)"></button>
+                  </div>
+                  <div class="col-20 item-input text-center">
+                      <input text-align="center" type="number" placeholder="reps" ng-model="set.reps" ng-init="reps"></input>
+                  </div>
+                  <div class="col">
+                    <button class="button button-clear button-dark button-small icon ion-plus-round rep-button" ng-click="model.increment(set)"></button>
+                  </div>
+                </div>
+                <ion-option-button ng-click="removeSet($index, exercise)" class="button-assertive button-small icon ion-trash-a"></ion-option-button>
+            </ion-item>
+          </ion-list>
+
+        </ion-content>
+        </ion-view>
+      </ion-tab>
+
+      <ion-tab title="PRs" >
+        <ion-view>
+          <ion-content>
+            <div class="list card">
+              <div class="item item-divider" ng-class="{'selected': isSelected($index)}">
+                <h2>Personal Bests</h2>
+              </div>
+              <div class="item no-padding" ng-repeat="key in pbKeys">
+                <div class="row">
+                    <div class="col">
+                      {{key}} Rep Max.
+                    </div>
+                    <div class="col col-offset-10">
+                      {{history.pbs[key].weight}}{{ history.pbs[key].unit || massUnit}}
+                    </div>
+                    <div class="col-20 item-input text-center">
+                        {{history.pbs[key].reps}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </ion-tab>
+
+      <ion-tab title="History">
+        <ion-view>
+          <ion-content>
+            <div class="list card" ng-repeat="p in history.performances track by $index" ng-class="{'selected': isSelected($index)}">
+              <div ui-sref="app.workout.overview({date: p.date})" class="item item-divider" ng-class="{'selected': isSelected($index)}">
+                <h2>{{getHumanDateString(p.date)}}</h2>
+              </div>
+              <div class="item no-padding">
+                <div class="row" ng-repeat="set in p.sets track by $index">
+                    <div class="col">
+                      {{$index + 1}}.
+                    </div>
+                    <div class="col col-offset-10">
+                      {{set.weight}}{{ set.unit || massUnit}}
+                    </div>
+                    <div class="col-20 item-input text-center">
+                        {{set.reps}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </ion-tab>
+  </ion-tabs>
+  </ioin-view>
