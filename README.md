@@ -3,7 +3,7 @@ A mobile workout logging application built with [Ionic.][ionic] Talks back to th
 
 This is a work in progress and it's just getting started. 
 It's my first experience ever using Angular or Ionic.
-It's quite a learning exercise.
+
 
 ##Setup
 First, install Ionic & Cordova
