@@ -1,11 +1,11 @@
 angular.module('authServiceModule', ['ngStorage'])
 
-.factory('authService', function($http, $localStorage) {
+.factory('authService', function($rootScope, $http, $localStorage) {
   var logged_in = false
-  
+
   var user = $localStorage.user;
   var token = $localStorage.token;
-  if (user && token) { 
+  if (user && token) {
     logged_in = true
     $http.defaults.headers.common.Authorization = token;
     console.log('logged_in', logged_in);
@@ -39,8 +39,11 @@ angular.module('authServiceModule', ['ngStorage'])
     user = undefined;
     $localStorage.token = undefined;
     token = undefined;
+    $localStorage.workouts = {};
+    $localStorage.sync_token = undefined;
+    $rootScope.$emit('gotSyncUpdates');
   }
-  
+
   function getToken() {
     return token;
   }

@@ -33,15 +33,15 @@
           <i class="icon ion-calendar"></i>
              Calendar
         </ion-item>
-        <ion-item menu-toggle class="item item-icon-left" ui-sref="#">
-          <i class="icon ion-arrow-graph-up-right"></i>
-             Progress
-        </ion-item>
         <ion-item menu-toggle class="item item-icon-left" ui-sref="app.exercises.categories">
           <i class="icon ion-more"></i>
              Exercises
         </ion-item>
         <div class="item item-divider"></div>
+        <ion-item ng-show="loggedIn" menu-toggle class="item item-icon-left" ng-click="sync()">
+          <i class="icon ion-loop"></i>
+             Sync
+        </ion-item>
         <ion-item menu-toggle class="item item-icon-left" ui-sref="app.settings">
           <i class="icon ion-gear-a"></i>
              Preferences

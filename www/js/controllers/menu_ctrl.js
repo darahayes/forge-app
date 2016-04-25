@@ -1,6 +1,6 @@
-angular.module('menuCtrlModule', ['userServiceModule', 'ionic'])
+angular.module('menuCtrlModule', ['userServiceModule', 'ionic', 'syncServiceModule'])
 
-.controller('MenuCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, userService) {
+.controller('MenuCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, userService, syncService) {
 
   $scope.moment = moment
   $scope.loggedIn = userService.isLoggedIn();
@@ -52,6 +52,10 @@ angular.module('menuCtrlModule', ['userServiceModule', 'ionic'])
     });
   }
 
+  $scope.sync = function() {
+    syncService.sync();
+  }
+
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', JSON.stringify($scope.loginData));
@@ -69,6 +73,7 @@ angular.module('menuCtrlModule', ['userServiceModule', 'ionic'])
         $scope.loggedIn = userService.isLoggedIn();
         $scope.user = userService.getUser();
         console.log("login complete",$scope.loggedIn, $scope.user);
+        syncService.sync();
         $scope.loginModal.hide();
       }
     });

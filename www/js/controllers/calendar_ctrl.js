@@ -1,10 +1,15 @@
-angular.module('calendarCtrlModule', ['ionic', 'calendarServiceModule'])
+angular.module('calendarCtrlModule', ['ionic', 'calendarServiceModule', 'syncServiceModule'])
 
-.controller('CalendarCtrl', function($rootScope, $scope, $ionicHistory, $ionicSideMenuDelegate, calendarService) {
+.controller('CalendarCtrl', function($rootScope, $scope, $ionicHistory, $ionicSideMenuDelegate, calendarService, syncService) {
   //by default start with the current month of the year
   $scope.$on('$ionicView.enter', function() {
        // Code you want executed every time view is opened
        $ionicSideMenuDelegate.canDragContent(false);
+  });
+
+  $scope.$on('$ionicView.beforeEnter', function() {
+       // Code you want executed every time view is opened
+       syncService.sync()
   });
 
   var today = calendarService.today;
@@ -50,5 +55,10 @@ angular.module('calendarCtrlModule', ['ionic', 'calendarServiceModule'])
       day.workout_day = true;
     }
   });
+
+  $rootScope.$on('gotSyncUpdates', function(event) {
+    console.log('Received Update Broadcast');
+    $scope.weeks = calendarService.build_month($scope.month, $scope.year);
+  })
 
 })

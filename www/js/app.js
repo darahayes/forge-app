@@ -14,6 +14,7 @@ var appModules = [
   'userServiceModule',
   'workoutServiceModule',
   'PRServiceModule',
+  'syncServiceModule',
   'ngStorage'
 ]
 
@@ -157,7 +158,6 @@ angular.module('starter', appModules)
   $urlRouterProvider.otherwise('/app/calendar');
   $httpProvider.defaults.withCredentials = true;
   $httpProvider.defaults.useXDomain = true;
-  // $httpProvider.interceptors.push('Auth_Interceptor');
 })
 
 .constant('$ionicLoadingConfig', {
