@@ -5,6 +5,7 @@ angular.module('syncServiceModule', ['ngStorage', 'authServiceModule', 'connecti
   if (authService.isLoggedIn) {
     console.log('Sync Service is logged in');
   }
+
   var url = connectionService.url;
 
   var sync_token = $localStorage.sync_token
@@ -85,6 +86,9 @@ angular.module('syncServiceModule', ['ngStorage', 'authServiceModule', 'connecti
 
   function update_sync_token() {
     if (authService.isLoggedIn) {
+      if (!$localStorage.sync_token) {
+        $localStorage.sync_token = {}
+      }
       $localStorage.sync_token.timestamp = Date.now()
       console.log('Sync Token Updated');
     }
