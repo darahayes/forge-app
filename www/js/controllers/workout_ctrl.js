@@ -80,7 +80,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   $scope.model.list = $scope.model.xCategories;
 })
 
-.controller('WorkoutOverviewCtrl', function($scope, $state, $ionicHistory, $ionicSideMenuDelegate, $ionicModal, workout, date, exercisesService) {
+.controller('WorkoutOverviewCtrl', function($scope, $state, $ionicHistory, $ionicSideMenuDelegate, $ionicModal, workout, date, exercisesService, $cordovaToast) {
 
   $scope.$on('$ionicView.enter', function() {
     $ionicSideMenuDelegate.canDragContent(true);
@@ -140,6 +140,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   $scope.action = function(workout) {
     if (!$scope.itemsSelected()) {
       $scope.model.save_workout(workout)
+      $cordovaToast.show('Workout Saved', 'short', 'bottom');
     }
     else {
       $scope.deleteSelected()
@@ -183,7 +184,7 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
   }
 })
 
-.controller('ExerciseLogCtrl', function($scope, $state, $ionicPopup, $ionicListDelegate, settingsService, workout, exercise_index, prService, $ionicTabsDelegate) {
+.controller('ExerciseLogCtrl', function($rootScope, $scope, $state, $ionicPopup, $ionicListDelegate, settingsService, workout, exercise_index, prService, $ionicTabsDelegate) {
 
   $scope.exercise = workout.exercises[exercise_index];
   $scope.history = prService.get_history($scope.exercise.name);
@@ -291,4 +292,13 @@ angular.module('workoutCtrlModule', ['ionic', 'settingsServiceModule', 'workoutS
     $ionicListDelegate.closeOptionButtons();
     exercise.sets.splice(index, 1)
   }
+
+  $rootScope.$on('WorkoutSaved', function(event, date) {
+    $scope.history = prService.get_history($scope.exercise.name);
+  });
+
+  $rootScope.$on('gotSyncUpdates', function(event) {
+    $scope.history = prService.get_history($scope.exercise.name);
+  })
+
 })

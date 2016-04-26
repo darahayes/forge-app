@@ -34,7 +34,7 @@ angular.module('authServiceModule', ['ngStorage'])
 
   function clearLogin() {
     $http.defaults.headers.common.Authorization = undefined;
-    logged_in = undefined;
+    logged_in = false;
     $localStorage.user = undefined;
     user = undefined;
     $localStorage.token = undefined;

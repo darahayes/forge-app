@@ -1,6 +1,6 @@
 angular.module('menuCtrlModule', ['userServiceModule', 'ionic', 'syncServiceModule'])
 
-.controller('MenuCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, userService, syncService) {
+.controller('MenuCtrl', function($scope, $ionicPopup, $ionicLoading, $ionicModal, userService, syncService, $cordovaToast) {
 
   $scope.moment = moment
   $scope.loggedIn = userService.isLoggedIn();
@@ -54,6 +54,7 @@ angular.module('menuCtrlModule', ['userServiceModule', 'ionic', 'syncServiceModu
 
   $scope.sync = function() {
     syncService.sync();
+    $cordovaToast.show('Sync Complete', 'short', 'bottom');
   }
 
   // Perform the login action when the user submits the login form

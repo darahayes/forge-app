@@ -15,6 +15,7 @@ var appModules = [
   'workoutServiceModule',
   'PRServiceModule',
   'syncServiceModule',
+  'ngCordova',
   'ngStorage'
 ]
 
